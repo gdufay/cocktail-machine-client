@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/secondFragment">
+    app:startDestination="@id/recipeFragment">
 
     <fragment
-        android:id="@+id/firstFragment"
+        android:id="@+id/settingsFragment"
         android:name="com.example.cockailmachine.recipe.RecipeFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first"/>
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_recipe" />
     <fragment
-        android:id="@+id/secondFragment"
+        android:id="@+id/recipeFragment"
         android:name="com.example.cockailmachine.settings.SettingsFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second"/>
+        android:label="@string/recipes"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
