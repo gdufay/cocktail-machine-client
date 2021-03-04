@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/recipeFragment">
-
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.cockailmachine.recipe.RecipeFragment"
-        android:label="@string/settings"
-        tools:layout="@layout/fragment_recipe" />
     <fragment
         android:id="@+id/recipeFragment"
+        android:name="com.example.cockailmachine.recipe.RecipeFragment"
+        android:label="@string/recipes" />
+    <fragment
+        android:id="@+id/settingsFragment"
         android:name="com.example.cockailmachine.settings.SettingsFragment"
-        android:label="@string/recipes"
+        android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>
