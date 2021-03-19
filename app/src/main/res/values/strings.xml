@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CockailMachine</string>
+    <string name="app_name">CocktailMachine</string>
     <!-- Strings used for fragments for navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -8,4 +8,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="recipes">Recipes</string>
     <string name="settings">Settings</string>
+    <string name="cocktail_img_content_description">Cocktail image</string>
 </resources>
