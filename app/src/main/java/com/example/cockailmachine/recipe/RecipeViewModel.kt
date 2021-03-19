@@ -1,23 +1,19 @@
 package com.example.cockailmachine.recipe
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.cockailmachine.database.CocktailDatabase
-import kotlinx.coroutines.launch
 
 class RecipeViewModel(
-    private val database: CocktailDatabase,
+    database: CocktailDatabase,
     private val application: Application
 ) : ViewModel() {
 
-    private val _recipes = MutableLiveData<String>()
+    // private val _recipes = MutableLiveData<List<Cocktail>>()
 
-    val recipes: LiveData<String>
-        get() = _recipes
+    val recipes = database.cocktailDao().getAll()
 
+    /*
     init {
         initializeRecipes()
     }
@@ -28,7 +24,8 @@ class RecipeViewModel(
         }
     }
 
-    private suspend fun getRecipeFromDatabase(): String {
-        return database.cocktailDao().get(0)?.name ?: "Nop"
+    private suspend fun getRecipeFromDatabase(): LiveData<List<Cocktail>> {
+        return database.cocktailDao().getAll()
     }
+     */
 }
