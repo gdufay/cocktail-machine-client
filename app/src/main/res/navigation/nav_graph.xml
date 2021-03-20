@@ -6,7 +6,7 @@
     app:startDestination="@id/recipeFragment">
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="com.example.cocktailmachine.recipe.RecipeFragment"
+        android:name="com.example.cocktailmachine.cocktaillist.CocktailListFragment"
         android:label="@string/recipes" />
     <fragment
         android:id="@+id/settingsFragment"

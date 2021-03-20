@@ -1,4 +1,4 @@
-package com.example.cocktailmachine.recipe
+package com.example.cocktailmachine.cocktaillist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,27 +9,27 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.database.CocktailDatabase
-import com.example.cocktailmachine.databinding.FragmentRecipeBinding
+import com.example.cocktailmachine.databinding.FragmentCocktailListBinding
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class RecipeFragment : Fragment() {
+class CocktailListFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding: FragmentRecipeBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false)
+        val binding: FragmentCocktailListBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_cocktail_list, container, false)
 
         val application = requireActivity().application
         val dataSource = CocktailDatabase.getInstance(application)
 
-        val viewModelFactory = RecipeViewModelFactory(dataSource, application)
+        val viewModelFactory = CocktailListViewModelFactory(dataSource, application)
         val recipeViewModel =
-            ViewModelProvider(this, viewModelFactory).get(RecipeViewModel::class.java)
-        val adapter = RecipeAdapter()
+            ViewModelProvider(this, viewModelFactory).get(CocktailListViewModel::class.java)
+        val adapter = CocktailListAdapter()
 
         binding.lifecycleOwner = this
         binding.recipeViewModel = recipeViewModel

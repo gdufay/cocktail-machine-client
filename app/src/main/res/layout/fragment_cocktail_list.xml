@@ -6,7 +6,7 @@
 
         <variable
             name="recipeViewModel"
-            type="com.example.cocktailmachine.recipe.RecipeViewModel" />
+            type="com.example.cocktailmachine.cocktaillist.CocktailListViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView

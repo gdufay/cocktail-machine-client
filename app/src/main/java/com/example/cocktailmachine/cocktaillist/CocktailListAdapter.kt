@@ -1,4 +1,4 @@
-package com.example.cocktailmachine.recipe
+package com.example.cocktailmachine.cocktaillist
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.database.CocktailWithIngredients
 
-class RecipeAdapter : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
+class CocktailListAdapter : RecyclerView.Adapter<CocktailListAdapter.ViewHolder>() {
     var cocktails = listOf<CocktailWithIngredients>()
         set(value) {
             field = value
