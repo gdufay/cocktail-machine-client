@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/cocktail_img"
+        android:id="@+id/item_cocktail_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/cocktail_img_content_description"
@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
-        android:id="@+id/cocktail_name"
+        android:id="@+id/item_cocktail_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -25,8 +25,8 @@
         android:gravity="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/cocktail_img"
-        app:layout_constraintStart_toStartOf="@+id/cocktail_img"
-        app:layout_constraintTop_toBottomOf="@+id/cocktail_img" />
+        app:layout_constraintEnd_toEndOf="@+id/item_cocktail_img"
+        app:layout_constraintStart_toStartOf="@+id/item_cocktail_img"
+        app:layout_constraintTop_toBottomOf="@+id/item_cocktail_img" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,10 +7,20 @@
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.cocktailmachine.cocktaillist.CocktailListFragment"
-        android:label="@string/recipes" />
+        android:label="@string/recipes"
+        tools:layout="@layout/fragment_cocktail_list">
+        <action
+            android:id="@+id/action_recipeFragment_to_cocktailSettingsFragment"
+            app:destination="@id/cocktailSettingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.cocktailmachine.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/cocktailSettingsFragment"
+        android:name="com.example.cocktailmachine.cocktailsettings.CocktailSettingsFragment"
+        android:label="CocktailSettingsFragment"
+        tools:layout="@layout/fragment_cocktail_settings" />
 </navigation>

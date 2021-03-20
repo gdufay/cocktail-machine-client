@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.database.CocktailWithIngredients
 
-class CocktailListAdapter : RecyclerView.Adapter<CocktailListAdapter.ViewHolder>() {
+class CocktailListAdapter(private val listener: (CocktailWithIngredients) -> Unit) :
+    RecyclerView.Adapter<CocktailListAdapter.ViewHolder>() {
     var cocktails = listOf<CocktailWithIngredients>()
         set(value) {
             field = value
@@ -24,14 +25,18 @@ class CocktailListAdapter : RecyclerView.Adapter<CocktailListAdapter.ViewHolder>
         val item = cocktails[position]
 
         holder.bind(item)
+        holder.itemView.setOnClickListener {
+            listener(item)
+        }
     }
 
 
     override fun getItemCount() = cocktails.size
 
     class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val cocktailImage: ImageView = itemView.findViewById(R.id.cocktail_img)
-        private val cocktailName: TextView = itemView.findViewById(R.id.cocktail_name)
+        private val cocktailImage: ImageView = itemView.findViewById(R.id.item_cocktail_img)
+        private val cocktailName: TextView = itemView.findViewById(R.id.item_cocktail_name)
+
 
         fun bind(item: CocktailWithIngredients) {
             cocktailName.text = item.cocktail.cocktailName
