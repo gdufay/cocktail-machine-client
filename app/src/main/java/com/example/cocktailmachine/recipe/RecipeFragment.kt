@@ -1,4 +1,4 @@
-package com.example.cockailmachine.recipe
+package com.example.cocktailmachine.recipe
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.cockailmachine.R
-import com.example.cockailmachine.database.CocktailDatabase
-import com.example.cockailmachine.databinding.FragmentRecipeBinding
+import com.example.cocktailmachine.R
+import com.example.cocktailmachine.database.CocktailDatabase
+import com.example.cocktailmachine.databinding.FragmentRecipeBinding
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.

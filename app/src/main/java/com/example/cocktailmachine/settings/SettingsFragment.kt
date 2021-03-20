@@ -1,11 +1,11 @@
-package com.example.cockailmachine.settings
+package com.example.cocktailmachine.settings
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.cockailmachine.R
+import com.example.cocktailmachine.R
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.

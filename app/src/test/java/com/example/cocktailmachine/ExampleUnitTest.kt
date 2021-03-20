@@ -1,4 +1,4 @@
-package com.example.cockailmachine
+package com.example.cocktailmachine
 
 import org.junit.Test
 

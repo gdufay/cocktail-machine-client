@@ -6,11 +6,11 @@
     app:startDestination="@id/recipeFragment">
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="com.example.cockailmachine.recipe.RecipeFragment"
+        android:name="com.example.cocktailmachine.recipe.RecipeFragment"
         android:label="@string/recipes" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.cockailmachine.settings.SettingsFragment"
+        android:name="com.example.cocktailmachine.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

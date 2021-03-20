@@ -1,4 +1,4 @@
-package com.example.cockailmachine.recipe
+package com.example.cocktailmachine.recipe
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cockailmachine.R
-import com.example.cockailmachine.database.CocktailWithIngredients
+import com.example.cocktailmachine.R
+import com.example.cocktailmachine.database.CocktailWithIngredients
 
 class RecipeAdapter : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
     var cocktails = listOf<CocktailWithIngredients>()
@@ -32,15 +32,9 @@ class RecipeAdapter : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
     class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val cocktailImage: ImageView = itemView.findViewById(R.id.cocktail_img)
         private val cocktailName: TextView = itemView.findViewById(R.id.cocktail_name)
-        private val ingredientName: TextView = itemView.findViewById(R.id.ingredient_name)
-        private val quantityValue: TextView = itemView.findViewById(R.id.quantity_value)
 
         fun bind(item: CocktailWithIngredients) {
             cocktailName.text = item.cocktail.cocktailName
-            if (item.ingredients.isNotEmpty()) {
-                ingredientName.text = item.ingredients[0].ingredientName
-                quantityValue.text = item.ingredients[0].quantity.toString()
-            }
         }
 
         companion object {

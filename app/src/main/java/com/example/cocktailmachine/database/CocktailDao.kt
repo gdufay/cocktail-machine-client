@@ -1,4 +1,4 @@
-package com.example.cockailmachine.database
+package com.example.cocktailmachine.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
