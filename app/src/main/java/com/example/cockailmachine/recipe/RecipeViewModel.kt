@@ -9,23 +9,6 @@ class RecipeViewModel(
     private val application: Application
 ) : ViewModel() {
 
-    // private val _recipes = MutableLiveData<List<Cocktail>>()
+    val cocktails = database.cocktailDao().getCocktailsWithIngredients()
 
-    val recipes = database.cocktailDao().getAll()
-
-    /*
-    init {
-        initializeRecipes()
-    }
-
-    private fun initializeRecipes() {
-        viewModelScope.launch {
-            _recipes.value = getRecipeFromDatabase()
-        }
-    }
-
-    private suspend fun getRecipeFromDatabase(): LiveData<List<Cocktail>> {
-        return database.cocktailDao().getAll()
-    }
-     */
 }

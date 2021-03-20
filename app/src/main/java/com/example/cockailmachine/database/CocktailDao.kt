@@ -1,10 +1,7 @@
 package com.example.cockailmachine.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CocktailDao {
@@ -14,11 +11,15 @@ interface CocktailDao {
     @Delete
     suspend fun delete(cocktail: Cocktail)
 
-    @Query("SELECT * FROM cocktail WHERE id = :key")
+    @Query("SELECT * FROM cocktail WHERE cocktailId = :key")
     suspend fun get(key: Int): Cocktail?
 
-    @Query("SELECT * FROM cocktail")
+    @Query("SELECT * FROM Cocktail")
     fun getAll(): LiveData<List<Cocktail>>
+
+    @Transaction
+    @Query("SELECT * FROM Cocktail")
+    fun getCocktailsWithIngredients(): LiveData<List<CocktailWithIngredients>>
 }
 
 @Dao
@@ -31,16 +32,4 @@ interface IngredientDao {
 
     @Query("SELECT * from ingredient")
     suspend fun getAll(): List<Ingredient>
-}
-
-@Dao
-interface QuantityDao {
-    @Insert
-    suspend fun insertAll(vararg quantities: Quantity)
-
-    @Delete
-    suspend fun delete(quantity: Quantity)
-
-    @Query("SELECT * from quantity")
-    suspend fun getAll(): List<Quantity>
 }

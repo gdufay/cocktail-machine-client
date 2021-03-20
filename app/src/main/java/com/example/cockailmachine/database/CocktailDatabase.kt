@@ -6,14 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [Cocktail::class, Ingredient::class, Quantity::class],
+    entities = [Cocktail::class, Ingredient::class],
     version = 1,
     exportSchema = true
 )
 abstract class CocktailDatabase : RoomDatabase() {
     abstract fun cocktailDao(): CocktailDao
     abstract fun ingredientDao(): IngredientDao
-    abstract fun quantityDao(): QuantityDao
+    // abstract fun quantityDao(): QuantityDao
 
     companion object {
         @Volatile

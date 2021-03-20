@@ -1,51 +1,41 @@
 package com.example.cockailmachine.database
 
 import androidx.annotation.NonNull
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-@Entity(indices = [Index(value = ["name"], unique = true)])
+@Entity(indices = [Index(value = ["cocktailName"], unique = true)])
 data class Cocktail(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    @NonNull var name: String,
+    @PrimaryKey(autoGenerate = true) val cocktailId: Int,
+    @NonNull var cocktailName: String,
     // @Ignore var picture: Bitmap? // Not used right now
 )
 
-@Entity(indices = [Index(value = ["name"], unique = true)])
-data class Ingredient(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    @NonNull var name: String
-)
-
+/*
+    Not the most optimal way but easiest way to do it with Room
+ */
 @Entity(
-    primaryKeys = ["cocktailId", "ingredientId"],
     foreignKeys = [
         ForeignKey(
             entity = Cocktail::class,
-            parentColumns = ["id"],
+            parentColumns = ["cocktailId"],
             childColumns = ["cocktailId"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = Ingredient::class,
-            parentColumns = ["id"],
-            childColumns = ["ingredientId"],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class Quantity(
-    val cocktailId: Int,
-    val ingredientId: Int,
-    @NonNull var quantity: Short,
+data class Ingredient(
+    @PrimaryKey(autoGenerate = true) val ingredientId: Int,
+    @NonNull val cocktailId: Int,
+    @NonNull val ingredientName: String,
+    @NonNull val quantity: Short,
 )
 
-/*
+// TODO: See to use only relevant data
 data class CocktailWithIngredients(
     @Embedded val cocktail: Cocktail,
-    @Embedded val ingredient: Ingredient,
-    val quantity: Int,
+    @Relation(
+        parentColumn = "cocktailId",
+        entityColumn = "cocktailId"
+    )
+    val ingredients: List<Ingredient>
 )
- */

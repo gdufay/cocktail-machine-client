@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.cockailmachine.R
 import com.example.cockailmachine.database.CocktailDatabase
@@ -36,9 +35,9 @@ class RecipeFragment : Fragment() {
         binding.recipeViewModel = recipeViewModel
         binding.recipeList.adapter = adapter
 
-        recipeViewModel.recipes.observe(viewLifecycleOwner, {
+        recipeViewModel.cocktails.observe(viewLifecycleOwner, {
             it?.let {
-                adapter.data = it
+                adapter.cocktails = it
             }
         })
 
