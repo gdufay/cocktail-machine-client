@@ -26,10 +26,20 @@ class CocktailSettingsFragment : Fragment() {
         val sharedViewModel = ViewModelProvider(requireActivity(), sharedViewModelFactory).get(
             CocktailListSettingsSharedViewModel::class.java
         )
+        val adapter = IngredientItemAdapter()
 
         binding.lifecycleOwner = this
         binding.viewModel = sharedViewModel
+        binding.ingredientList.adapter = adapter
+
+        sharedViewModel.selected_cocktail.observe(viewLifecycleOwner, {
+            it?.let {
+                adapter.ingredients = it.ingredients
+            }
+        })
 
         return binding.root
     }
+
+
 }

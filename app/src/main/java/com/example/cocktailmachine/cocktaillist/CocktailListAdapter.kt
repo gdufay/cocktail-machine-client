@@ -45,7 +45,7 @@ class CocktailListAdapter(private val listener: (CocktailWithIngredients) -> Uni
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.recipe_item_view, parent, false)
+                val view = layoutInflater.inflate(R.layout.cocktail_item_view, parent, false)
 
                 return ViewHolder(view)
             }

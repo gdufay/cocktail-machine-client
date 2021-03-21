@@ -9,4 +9,6 @@
     <string name="recipes">Recipes</string>
     <string name="settings">Settings</string>
     <string name="cocktail_img_content_description">Cocktail image</string>
+    <string name="update_cocktail_btn">Update</string>
+    <string name="quantity">quantity</string>
 </resources>
