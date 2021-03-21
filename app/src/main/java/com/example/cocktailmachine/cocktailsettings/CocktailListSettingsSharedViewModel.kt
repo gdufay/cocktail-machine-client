@@ -3,15 +3,19 @@ package com.example.cocktailmachine.cocktailsettings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.cocktailmachine.database.CocktailDatabase
 import com.example.cocktailmachine.database.CocktailWithIngredients
 
-class CocktailListSettingsSharedViewModel : ViewModel() {
-    private val _selected = MutableLiveData<CocktailWithIngredients>()
+class CocktailListSettingsSharedViewModel(database: CocktailDatabase) : ViewModel() {
+    private val _cocktails = database.cocktailDao().getCocktailsWithIngredients()
+    val cocktails: LiveData<List<CocktailWithIngredients>>
+        get() = _cocktails
 
-    val selected: LiveData<CocktailWithIngredients>
-        get() = _selected
+    private val _selected_cocktail = MutableLiveData<CocktailWithIngredients>()
+    val selected_cocktail: LiveData<CocktailWithIngredients>
+        get() = _selected_cocktail
 
-    fun select(cocktail: CocktailWithIngredients) {
-        _selected.value = cocktail
+    fun selectCocktail(cocktail: CocktailWithIngredients) {
+        _selected_cocktail.value = cocktail
     }
 }

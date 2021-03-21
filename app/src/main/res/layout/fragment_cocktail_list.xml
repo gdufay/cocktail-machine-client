@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="recipeViewModel"
-            type="com.example.cocktailmachine.cocktaillist.CocktailListViewModel" />
+            name="viewModel"
+            type="com.example.cocktailmachine.cocktailsettings.CocktailListSettingsSharedViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView

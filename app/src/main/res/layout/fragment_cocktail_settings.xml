@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="cocktailSettingsViewModel"
-            type="com.example.cocktailmachine.cocktailsettings.CocktailSettingsViewModel" />
+            name="viewModel"
+            type="com.example.cocktailmachine.cocktailsettings.CocktailListSettingsSharedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="@{cocktailSettingsViewModel.cocktail.cocktail.cocktailName}"
+            android:text="@{viewModel.selected_cocktail.cocktail.cocktailName}"
             app:layout_constraintEnd_toEndOf="@+id/big_cocktail_img"
             app:layout_constraintHorizontal_bias="0.48"
             app:layout_constraintStart_toStartOf="@+id/big_cocktail_img"
