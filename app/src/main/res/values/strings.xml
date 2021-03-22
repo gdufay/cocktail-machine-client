@@ -11,4 +11,7 @@
     <string name="cocktail_img_content_description">Cocktail image</string>
     <string name="update_cocktail_btn">Update</string>
     <string name="quantity">quantity</string>
+    <string name="new_cocktail">New cocktail</string>
+    <string name="volume_cl">cl</string>
+    <string name="ingredient_name">Ingredient name</string>
 </resources>

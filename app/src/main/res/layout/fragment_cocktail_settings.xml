@@ -47,12 +47,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <Button
                     android:id="@+id/cocktail_update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#FDDEC3"
                     android:text="@string/update_cocktail_btn" />
             </LinearLayout>
 

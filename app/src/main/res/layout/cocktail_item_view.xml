@@ -7,10 +7,14 @@
 
     <ImageView
         android:id="@+id/item_cocktail_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="323dp"
+        android:layout_height="202dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:contentDescription="@string/cocktail_img_content_description"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/item_cocktail_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,13 +24,11 @@
         android:id="@+id/item_cocktail_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/item_cocktail_img"
-        app:layout_constraintStart_toStartOf="@+id/item_cocktail_img"
-        app:layout_constraintTop_toBottomOf="@+id/item_cocktail_img" />
+        app:layout_constraintStart_toStartOf="@+id/item_cocktail_img" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
