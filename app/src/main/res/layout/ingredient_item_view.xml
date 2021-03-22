@@ -9,24 +9,20 @@
         android:id="@+id/item_ingredient_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/ingredient_name"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/item_ingredient_quantity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:gravity="end"
         android:hint="@string/quantity"
-        android:importantForAutofill="no"
-        android:inputType="number"
         android:singleLine="true"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/item_ingredient_name"
@@ -37,12 +33,10 @@
         android:id="@+id/ingredient_volume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:text="@string/volume_cl"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/item_ingredient_quantity"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/item_ingredient_quantity"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toTopOf="@+id/item_ingredient_quantity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
