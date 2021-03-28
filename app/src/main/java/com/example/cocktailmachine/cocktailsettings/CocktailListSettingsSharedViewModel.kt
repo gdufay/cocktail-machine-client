@@ -5,8 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cocktailmachine.database.CocktailDatabase
 import com.example.cocktailmachine.database.CocktailWithIngredients
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CocktailListSettingsSharedViewModel(database: CocktailDatabase) : ViewModel() {
+@HiltViewModel
+class CocktailListSettingsSharedViewModel @Inject constructor(val database: CocktailDatabase) :
+    ViewModel() {
+
     private val _cocktails = database.cocktailDao().getCocktailsWithIngredients()
     val cocktails: LiveData<List<CocktailWithIngredients>>
         get() = _cocktails

@@ -6,13 +6,21 @@ import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.cocktailmachine.database.Cocktail
+import com.example.cocktailmachine.database.CocktailDatabase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class IngredientQuantity(
     var name: String = "",
     var quantity: String = "",
 )
 
-open class CocktailAddViewModel : ViewModel(), Observable {
+@HiltViewModel
+open class CocktailAddViewModel @Inject constructor(private val database: CocktailDatabase) :
+    ViewModel(), Observable {
     // TODO: use SingleLiveEvent
     private val _toastEvent = MutableLiveData<String>()
     val toastEvent: LiveData<String>
@@ -50,7 +58,15 @@ open class CocktailAddViewModel : ViewModel(), Observable {
         ) {
             _toastEvent.value = "Fill all fields to add cocktail"
         } else {
+            addCocktailDB()
             _toastEvent.value = "Cocktail added !"
+            // TODO: navigate back to list
+        }
+    }
+
+    private fun addCocktailDB() {
+        viewModelScope.launch {
+            database.cocktailDao().insertAll(Cocktail(0, _cocktailName))
         }
     }
 
@@ -64,20 +80,10 @@ open class CocktailAddViewModel : ViewModel(), Observable {
         callbacks.remove(callback)
     }
 
-    /**
-     * Notifies listeners that all properties of this instance have changed.
-     */
     fun notifyChange() {
         callbacks.notifyCallbacks(this, 0, null)
     }
 
-    /**
-     * Notifies listeners that a specific property has changed. The getter for the property
-     * that changes should be marked with [Bindable] to generate a field in
-     * `BR` to be used as `fieldId`.
-     *
-     * @param fieldId The generated BR id for the Bindable field.
-     */
     fun notifyPropertyChanged(fieldId: Int) {
         callbacks.notifyCallbacks(this, fieldId, null)
     }

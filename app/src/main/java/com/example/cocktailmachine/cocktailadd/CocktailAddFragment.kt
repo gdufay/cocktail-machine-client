@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.databinding.CocktailAddFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CocktailAddFragment : Fragment() {
+
+    private val addViewModel: CocktailAddViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,25 +24,21 @@ class CocktailAddFragment : Fragment() {
         val binding: CocktailAddFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.cocktail_add_fragment, container, false)
 
-        /*
-        val application = requireActivity().application
-        val database = CocktailDatabase.getInstance(application)
-         */
-        val viewModel = ViewModelProvider(this).get(CocktailAddViewModel::class.java)
-
         val adapter = CocktailAddAdapter()
 
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.ingredientList.adapter = adapter
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = addViewModel
+            ingredientList.adapter = adapter
+        }
 
-        viewModel.cocktailIngredients.observe(viewLifecycleOwner, {
+        addViewModel.cocktailIngredients.observe(viewLifecycleOwner, {
             it?.let {
                 adapter.ingredients = it
             }
         })
 
-        viewModel.toastEvent.observe(viewLifecycleOwner, {
+        addViewModel.toastEvent.observe(viewLifecycleOwner, {
             it?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
