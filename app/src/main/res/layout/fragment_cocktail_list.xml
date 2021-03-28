@@ -30,7 +30,6 @@
             android:clickable="true"
             android:contentDescription="@string/new_cocktail"
             android:focusable="true"
-            android:onClick="@{() -> viewModel.onClickAddCocktail()}"
             app:srcCompat="@drawable/ic_add_white"
             app:tint="@color/white" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

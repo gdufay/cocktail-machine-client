@@ -32,7 +32,7 @@ class CocktailSettingsFragment : Fragment() {
         binding.viewModel = sharedViewModel
         binding.ingredientList.adapter = adapter
 
-        sharedViewModel.selected_cocktail.observe(viewLifecycleOwner, {
+        sharedViewModel.selectedCocktail.observe(viewLifecycleOwner, {
             it?.let {
                 adapter.ingredients = it.ingredients
             }

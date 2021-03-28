@@ -26,16 +26,16 @@ data class Cocktail(
 data class Ingredient(
     @PrimaryKey(autoGenerate = true) val ingredientId: Int,
     @NonNull val cocktailId: Int,
-    @NonNull val ingredientName: String,
-    @NonNull val quantity: Short,
+    @NonNull var ingredientName: String,
+    @NonNull var quantity: Short,
 )
 
 // TODO: See to use only relevant data
 data class CocktailWithIngredients(
-    @Embedded val cocktail: Cocktail,
+    @Embedded var cocktail: Cocktail,
     @Relation(
         parentColumn = "cocktailId",
         entityColumn = "cocktailId"
     )
-    val ingredients: List<Ingredient>
+    val ingredients: MutableList<Ingredient>
 )

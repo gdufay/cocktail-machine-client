@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_recipeFragment_to_cocktailSettingsFragment"
             app:destination="@id/cocktailSettingsFragment" />
+        <action
+            android:id="@+id/action_recipeFragment_to_cocktailAddFragment"
+            app:destination="@id/cocktailAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -23,4 +26,13 @@
         android:name="com.example.cocktailmachine.cocktailsettings.CocktailSettingsFragment"
         android:label="CocktailSettingsFragment"
         tools:layout="@layout/fragment_cocktail_settings" />
+    <fragment
+        android:id="@+id/cocktailAddFragment"
+        android:name="com.example.cocktailmachine.cocktailadd.CocktailAddFragment"
+        android:label="cocktail_add_fragment"
+        tools:layout="@layout/cocktail_add_fragment" >
+        <action
+            android:id="@+id/action_cocktailAddFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+    </fragment>
 </navigation>

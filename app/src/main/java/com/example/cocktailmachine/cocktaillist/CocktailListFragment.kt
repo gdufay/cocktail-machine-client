@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.cocktailsettings.CocktailListSettingsSharedViewModel
@@ -46,6 +47,9 @@ class CocktailListFragment : Fragment() {
                 adapter.cocktails = it
             }
         })
+
+        // TODO: see to move
+        binding.floatingActionButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_recipeFragment_to_cocktailAddFragment))
 
         return binding.root
     }

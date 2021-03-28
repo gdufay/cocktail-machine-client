@@ -17,9 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/big_cocktail_img"
@@ -40,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="@{viewModel.selected_cocktail.cocktail.cocktailName}"
+                android:text="@{viewModel.selectedCocktail.cocktail.cocktailName}"
                 app:layout_constraintEnd_toEndOf="@+id/big_cocktail_img"
                 app:layout_constraintStart_toStartOf="@+id/big_cocktail_img"
                 app:layout_constraintTop_toBottomOf="@+id/big_cocktail_img" />

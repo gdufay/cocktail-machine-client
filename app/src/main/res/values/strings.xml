@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">CocktailMachine</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="recipes">Recipes</string>
     <string name="settings">Settings</string>
     <string name="cocktail_img_content_description">Cocktail image</string>
@@ -14,4 +13,8 @@
     <string name="new_cocktail">New cocktail</string>
     <string name="volume_cl">cl</string>
     <string name="ingredient_name">Ingredient name</string>
+    <string name="cocktail_name">Cocktail name</string>
+    <string name="add_cocktail">Add cocktail</string>
+    <string name="add_ingredient">+ Add ingredient</string>
+    <string name="delete_ingredient">Delete ingredient</string>
 </resources>
