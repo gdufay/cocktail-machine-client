@@ -25,7 +25,11 @@
         android:id="@+id/cocktailSettingsFragment"
         android:name="com.example.cocktailmachine.cocktailsettings.CocktailSettingsFragment"
         android:label="CocktailSettingsFragment"
-        tools:layout="@layout/fragment_cocktail_settings" />
+        tools:layout="@layout/fragment_cocktail_settings" >
+        <argument
+            android:name="cocktailId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/cocktailAddFragment"
         android:name="com.example.cocktailmachine.cocktailadd.CocktailAddFragment"

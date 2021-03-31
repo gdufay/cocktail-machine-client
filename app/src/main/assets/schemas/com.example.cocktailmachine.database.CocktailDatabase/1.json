@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "29127f2f4bd095be163a545d27f74056",
+    "identityHash": "470f83b81a049220e510bd88c0659694",
     "entities": [
       {
         "tableName": "Cocktail",
@@ -41,11 +41,46 @@
       },
       {
         "tableName": "Ingredient",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ingredientId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cocktailId` INTEGER NOT NULL, `ingredientName` TEXT NOT NULL, `quantity` INTEGER NOT NULL, FOREIGN KEY(`cocktailId`) REFERENCES `Cocktail`(`cocktailId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ingredientId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ingredientName` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "ingredientId",
             "columnName": "ingredientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ingredientName",
+            "columnName": "ingredientName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "ingredientId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Ingredient_ingredientName",
+            "unique": true,
+            "columnNames": [
+              "ingredientName"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Ingredient_ingredientName` ON `${TABLE_NAME}` (`ingredientName`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Quantity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`quantityId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cocktailId` INTEGER NOT NULL, `ingredientId` INTEGER NOT NULL, `quantity` INTEGER NOT NULL, FOREIGN KEY(`cocktailId`) REFERENCES `Cocktail`(`cocktailId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`ingredientId`) REFERENCES `Ingredient`(`ingredientId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "quantityId",
+            "columnName": "quantityId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -56,9 +91,9 @@
             "notNull": true
           },
           {
-            "fieldPath": "ingredientName",
-            "columnName": "ingredientName",
-            "affinity": "TEXT",
+            "fieldPath": "ingredientId",
+            "columnName": "ingredientId",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -70,11 +105,21 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "ingredientId"
+            "quantityId"
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Quantity_cocktailId_ingredientId",
+            "unique": true,
+            "columnNames": [
+              "cocktailId",
+              "ingredientId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Quantity_cocktailId_ingredientId` ON `${TABLE_NAME}` (`cocktailId`, `ingredientId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Cocktail",
@@ -86,6 +131,17 @@
             "referencedColumns": [
               "cocktailId"
             ]
+          },
+          {
+            "table": "Ingredient",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "ingredientId"
+            ],
+            "referencedColumns": [
+              "ingredientId"
+            ]
           }
         ]
       }
@@ -93,7 +149,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '29127f2f4bd095be163a545d27f74056')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '470f83b81a049220e510bd88c0659694')"
     ]
   }
 }

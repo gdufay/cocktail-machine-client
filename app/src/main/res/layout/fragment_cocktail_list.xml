@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.example.cocktailmachine.cocktailsettings.CocktailListSettingsSharedViewModel" />
+            name="vModel"
+            type="com.example.cocktailmachine.cocktaillist.CocktailListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

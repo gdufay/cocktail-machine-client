@@ -6,15 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.databinding.FragmentCocktailSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CocktailSettingsFragment : Fragment() {
 
-    private val sharedViewModel: CocktailListSettingsSharedViewModel by activityViewModels()
+    private val args: CocktailSettingsFragmentArgs by navArgs()
+
+    @Inject
+    lateinit var viewModelFactory: CocktailSettingsViewModelFactory
+
+    private val viewModel: CocktailSettingsViewModel by viewModels {
+        CocktailSettingsViewModel.provideFactory(viewModelFactory, args.cocktailId)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +37,13 @@ class CocktailSettingsFragment : Fragment() {
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = sharedViewModel
+            vModel = viewModel
             ingredientList.adapter = adapter
         }
 
-        sharedViewModel.selectedCocktail.observe(viewLifecycleOwner, {
+        viewModel.ingredients.observe(viewLifecycleOwner, {
             it?.let {
-                adapter.ingredients = it.ingredients
+                adapter.ingredients = it
             }
         })
 

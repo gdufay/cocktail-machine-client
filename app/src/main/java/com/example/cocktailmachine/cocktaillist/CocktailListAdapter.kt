@@ -7,11 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
-import com.example.cocktailmachine.database.CocktailWithIngredients
+import com.example.cocktailmachine.database.Cocktail
 
-class CocktailListAdapter(private val listener: (CocktailWithIngredients) -> Unit) :
+class CocktailListAdapter(private val listener: (Cocktail) -> Unit) :
     RecyclerView.Adapter<CocktailListAdapter.ViewHolder>() {
-    var cocktails = listOf<CocktailWithIngredients>()
+    var cocktails = listOf<Cocktail>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -38,8 +38,8 @@ class CocktailListAdapter(private val listener: (CocktailWithIngredients) -> Uni
         private val cocktailName: TextView = itemView.findViewById(R.id.item_cocktail_name)
 
 
-        fun bind(item: CocktailWithIngredients) {
-            cocktailName.text = item.cocktail.cocktailName
+        fun bind(item: Cocktail) {
+            cocktailName.text = item.cocktailName
         }
 
         companion object {

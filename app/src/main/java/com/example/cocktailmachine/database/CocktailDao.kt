@@ -1,35 +1,45 @@
 package com.example.cocktailmachine.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
 
 @Dao
 interface CocktailDao {
     @Insert
-    suspend fun insertAll(vararg cocktails: Cocktail)
+    suspend fun insertCocktail(vararg cocktails: Cocktail)
 
     @Delete
-    suspend fun delete(cocktail: Cocktail)
+    suspend fun deleteCocktail(cocktail: Cocktail)
 
-    @Query("SELECT * FROM cocktail WHERE cocktailId = :key")
-    suspend fun get(key: Int): Cocktail?
+    @Query("SELECT * FROM Cocktail WHERE cocktailId = :key")
+    fun getCocktail(key: Int): LiveData<Cocktail>
 
     @Query("SELECT * FROM Cocktail")
-    fun getAll(): LiveData<List<Cocktail>>
+    fun getCocktails(): LiveData<List<Cocktail>>
 
-    @Transaction
-    @Query("SELECT * FROM Cocktail")
-    fun getCocktailsWithIngredients(): LiveData<List<CocktailWithIngredients>>
 }
 
 @Dao
 interface IngredientDao {
     @Insert
-    suspend fun insertAll(vararg ingredients: Ingredient)
+    suspend fun insertIngredient(vararg ingredients: Ingredient)
 
     @Delete
-    suspend fun delete(ingredient: Ingredient)
+    suspend fun deleteIngredient(ingredient: Ingredient)
 
-    @Query("SELECT * from ingredient")
-    suspend fun getAll(): List<Ingredient>
+    @Query("SELECT * FROM ingredient WHERE ingredientId = :key")
+    suspend fun getIngredient(key: Int): Ingredient?
+
+    @Query("SELECT * FROM Ingredient")
+    fun getIngredients(): LiveData<List<Ingredient>>
+
+    @Query(
+        "SELECT ingredientName, quantity FROM Quantity as q"
+                + " INNER JOIN Ingredient as i ON q.ingredientId = i.ingredientId"
+                + " WHERE cocktailId = :cocktailId"
+    )
+    fun getAllIngredientsWithQuantity(cocktailId: Int): LiveData<List<IngredientWithQuantity>>
 }

@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
-import com.example.cocktailmachine.database.Ingredient
+import com.example.cocktailmachine.database.IngredientWithQuantity
 
 class IngredientItemAdapter : RecyclerView.Adapter<IngredientItemAdapter.ViewHolder>() {
-    var ingredients = listOf<Ingredient>()
+    var ingredients = listOf<IngredientWithQuantity>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -31,7 +31,7 @@ class IngredientItemAdapter : RecyclerView.Adapter<IngredientItemAdapter.ViewHol
         private val ingredientName: TextView = view.findViewById(R.id.item_ingredient_name)
         private val ingredientQuantity: TextView = view.findViewById(R.id.item_ingredient_quantity)
 
-        fun bind(ingredient: Ingredient) {
+        fun bind(ingredient: IngredientWithQuantity) {
             ingredientName.text = ingredient.ingredientName
             ingredientQuantity.text = ingredient.quantity.toString()
         }

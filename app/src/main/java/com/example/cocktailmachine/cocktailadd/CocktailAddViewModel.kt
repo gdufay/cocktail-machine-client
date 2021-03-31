@@ -66,7 +66,7 @@ open class CocktailAddViewModel @Inject constructor(private val database: Cockta
 
     private fun addCocktailDB() {
         viewModelScope.launch {
-            database.cocktailDao().insertAll(Cocktail(0, _cocktailName))
+            database.cocktailDao().insertCocktail(Cocktail(0, _cocktailName))
         }
     }
 

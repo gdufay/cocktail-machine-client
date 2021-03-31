@@ -1,7 +1,10 @@
 package com.example.cocktailmachine.database
 
 import androidx.annotation.NonNull
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(indices = [Index(value = ["cocktailName"], unique = true)])
 data class Cocktail(
@@ -10,26 +13,42 @@ data class Cocktail(
     // @Ignore var picture: Bitmap? // Not used right now
 )
 
-/*
-    Not the most optimal way but easiest way to do it with Room
- */
+@Entity(indices = [Index(value = ["ingredientName"], unique = true)])
+data class Ingredient(
+    @PrimaryKey(autoGenerate = true) val ingredientId: Int,
+    @NonNull var ingredientName: String,
+)
+
 @Entity(
+    indices = [Index(value = ["cocktailId", "ingredientId"], unique = true)],
     foreignKeys = [
         ForeignKey(
             entity = Cocktail::class,
             parentColumns = ["cocktailId"],
             childColumns = ["cocktailId"],
             onDelete = ForeignKey.CASCADE
-        )
+        ),
+        ForeignKey(
+            entity = Ingredient::class,
+            parentColumns = ["ingredientId"],
+            childColumns = ["ingredientId"],
+            onDelete = ForeignKey.CASCADE
+        ),
     ]
 )
-data class Ingredient(
-    @PrimaryKey(autoGenerate = true) val ingredientId: Int,
+data class Quantity(
+    @PrimaryKey(autoGenerate = true) val quantityId: Int,
     @NonNull val cocktailId: Int,
-    @NonNull var ingredientName: String,
-    @NonNull var quantity: Short,
+    @NonNull val ingredientId: Int,
+    @NonNull var quantity: Short
 )
 
+data class IngredientWithQuantity(
+    val ingredientName: String,
+    val quantity: Short
+)
+
+/*
 // TODO: See to use only relevant data
 data class CocktailWithIngredients(
     @Embedded var cocktail: Cocktail,
@@ -39,3 +58,4 @@ data class CocktailWithIngredients(
     )
     val ingredients: MutableList<Ingredient>
 )
+ */
