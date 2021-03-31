@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CocktailAddFragment : Fragment() {
 
     private val addViewModel: CocktailAddViewModel by viewModels()
+    private val adapter = CocktailAddAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,27 +25,36 @@ class CocktailAddFragment : Fragment() {
         val binding: CocktailAddFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.cocktail_add_fragment, container, false)
 
-        val adapter = CocktailAddAdapter()
-
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = addViewModel
             ingredientList.adapter = adapter
         }
 
-        addViewModel.cocktailIngredients.observe(viewLifecycleOwner, {
-            it?.let {
-                adapter.ingredients = it
-            }
-        })
-
-        addViewModel.toastEvent.observe(viewLifecycleOwner, {
-            it?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
-        })
+        viewModelApply()
 
         return binding.root
     }
 
+    private fun viewModelApply() {
+        addViewModel.apply {
+            cocktailIngredients.observe(viewLifecycleOwner, {
+                it?.let {
+                    adapter.ingredients = it
+                }
+            })
+
+            ingredients.observe(viewLifecycleOwner, {
+                it?.let {
+                    adapter.foo = it
+                }
+            })
+
+            toastEvent.observe(viewLifecycleOwner, {
+                it?.let {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
 }

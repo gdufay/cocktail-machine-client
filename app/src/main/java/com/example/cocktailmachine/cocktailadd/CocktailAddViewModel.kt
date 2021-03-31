@@ -28,6 +28,8 @@ open class CocktailAddViewModel @Inject constructor(private val database: Cockta
 
     private var _cocktailName: String = ""
 
+    val ingredients = database.ingredientDao().getIngredients()
+
     @Bindable
     fun getCocktailName(): String {
         return _cocktailName
@@ -80,11 +82,4 @@ open class CocktailAddViewModel @Inject constructor(private val database: Cockta
         callbacks.remove(callback)
     }
 
-    fun notifyChange() {
-        callbacks.notifyCallbacks(this, 0, null)
-    }
-
-    fun notifyPropertyChanged(fieldId: Int) {
-        callbacks.notifyCallbacks(this, fieldId, null)
-    }
 }

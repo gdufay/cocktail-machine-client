@@ -17,7 +17,11 @@ data class Cocktail(
 data class Ingredient(
     @PrimaryKey(autoGenerate = true) val ingredientId: Int,
     @NonNull var ingredientName: String,
-)
+) {
+    override fun toString(): String {
+        return ingredientName
+    }
+}
 
 @Entity(
     indices = [Index(value = ["cocktailId", "ingredientId"], unique = true)],

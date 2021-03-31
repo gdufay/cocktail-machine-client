@@ -39,7 +39,7 @@ class IngredientItemAdapter : RecyclerView.Adapter<IngredientItemAdapter.ViewHol
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.ingredient_item_view, parent, false)
+                val view = layoutInflater.inflate(R.layout.ingredient_quantity_item_view, parent, false)
 
                 return ViewHolder(view)
             }
