@@ -85,7 +85,6 @@ open class CocktailAddViewModel @Inject constructor(private val database: Cockta
     }
 
     fun newIngredient(ingredientName: String) {
-        // TODO: add ignoring conflict in dao
         if (ingredientName.isNotBlank())
             viewModelScope.launch {
                 database.ingredientDao()

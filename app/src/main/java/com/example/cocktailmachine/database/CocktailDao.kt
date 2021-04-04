@@ -1,14 +1,11 @@
 package com.example.cocktailmachine.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CocktailDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCocktail(vararg cocktails: Cocktail)
 
     @Delete
@@ -24,7 +21,7 @@ interface CocktailDao {
 
 @Dao
 interface IngredientDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertIngredient(vararg ingredients: Ingredient)
 
     @Delete
