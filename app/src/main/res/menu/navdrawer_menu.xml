@@ -2,11 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/recipeFragment"
-        android:icon="@android:drawable/btn_star_big_on"
-        android:title="@string/recipes" />
-    <item
-        android:id="@+id/settingsFragment"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:title="@string/settings" />
+        android:id="@+id/newIngredient"
+        android:icon="@drawable/ic_add_white"
+        android:title="@string/new_ingredient" />
 </menu>

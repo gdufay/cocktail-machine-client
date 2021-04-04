@@ -9,8 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cocktailmachine.database.Cocktail
 import com.example.cocktailmachine.database.CocktailDatabase
+import com.example.cocktailmachine.database.Ingredient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 data class IngredientQuantity(
@@ -82,4 +84,17 @@ open class CocktailAddViewModel @Inject constructor(private val database: Cockta
         callbacks.remove(callback)
     }
 
+    fun newIngredient(ingredientName: String) {
+        // TODO: add ignoring conflict in dao
+        if (ingredientName.isNotBlank())
+            viewModelScope.launch {
+                database.ingredientDao()
+                    .insertIngredient(
+                        Ingredient(
+                            0,
+                            ingredientName.toLowerCase(Locale.getDefault())
+                        )
+                    )
+            }
+    }
 }
