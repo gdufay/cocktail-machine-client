@@ -1,7 +1,7 @@
-package com.example.cocktailmachine.database
+package com.example.cocktailmachine.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CocktailDao {
@@ -12,10 +12,10 @@ interface CocktailDao {
     suspend fun deleteCocktail(cocktail: Cocktail)
 
     @Query("SELECT * FROM Cocktail WHERE cocktailId = :key")
-    fun getCocktail(key: Int): LiveData<Cocktail>
+    fun getCocktail(key: Int): Flow<Cocktail>
 
     @Query("SELECT * FROM Cocktail")
-    fun getCocktails(): LiveData<List<Cocktail>>
+    fun getCocktails(): Flow<List<Cocktail>>
 
 }
 
@@ -31,12 +31,12 @@ interface IngredientDao {
     suspend fun getIngredient(key: Int): Ingredient?
 
     @Query("SELECT * FROM Ingredient")
-    fun getIngredients(): LiveData<List<Ingredient>>
+    fun getIngredients(): Flow<List<Ingredient>>
 
     @Query(
         "SELECT ingredientName, quantity FROM Quantity as q"
                 + " INNER JOIN Ingredient as i ON q.ingredientId = i.ingredientId"
                 + " WHERE cocktailId = :cocktailId"
     )
-    fun getAllIngredientsWithQuantity(cocktailId: Int): LiveData<List<IngredientWithQuantity>>
+    fun getAllIngredientsWithQuantity(cocktailId: Int): Flow<List<IngredientWithQuantity>>
 }

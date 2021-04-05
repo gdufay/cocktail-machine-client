@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
-import com.example.cocktailmachine.database.Cocktail
+import com.example.cocktailmachine.data.Cocktail
 
 class CocktailListAdapter(private val listener: (Cocktail) -> Unit) :
     RecyclerView.Adapter<CocktailListAdapter.ViewHolder>() {

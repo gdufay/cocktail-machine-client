@@ -3,16 +3,11 @@ package com.example.cocktailmachine.cocktailadd
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.cocktailmachine.database.Cocktail
-import com.example.cocktailmachine.database.CocktailDatabase
-import com.example.cocktailmachine.database.Ingredient
+import androidx.lifecycle.*
+import com.example.cocktailmachine.data.CocktailRepository
+import com.example.cocktailmachine.data.IngredientRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 data class IngredientQuantity(
@@ -21,7 +16,10 @@ data class IngredientQuantity(
 )
 
 @HiltViewModel
-open class CocktailAddViewModel @Inject constructor(private val database: CocktailDatabase) :
+open class CocktailAddViewModel @Inject constructor(
+    private val cocktailRepository: CocktailRepository,
+    private val ingredientRepository: IngredientRepository
+) :
     ViewModel(), Observable {
     // TODO: use SingleLiveEvent
     private val _toastEvent = MutableLiveData<String>()
@@ -30,7 +28,7 @@ open class CocktailAddViewModel @Inject constructor(private val database: Cockta
 
     private var _cocktailName: String = ""
 
-    val ingredients = database.ingredientDao().getIngredients()
+    val ingredients = ingredientRepository.getIngredients().asLiveData()
 
     @Bindable
     fun getCocktailName(): String {
@@ -70,7 +68,7 @@ open class CocktailAddViewModel @Inject constructor(private val database: Cockta
 
     private fun addCocktailDB() {
         viewModelScope.launch {
-            database.cocktailDao().insertCocktail(Cocktail(0, _cocktailName))
+            cocktailRepository.insertCocktail(_cocktailName)
         }
     }
 
@@ -85,15 +83,8 @@ open class CocktailAddViewModel @Inject constructor(private val database: Cockta
     }
 
     fun newIngredient(ingredientName: String) {
-        if (ingredientName.isNotBlank())
-            viewModelScope.launch {
-                database.ingredientDao()
-                    .insertIngredient(
-                        Ingredient(
-                            0,
-                            ingredientName.toLowerCase(Locale.getDefault())
-                        )
-                    )
-            }
+        viewModelScope.launch {
+            ingredientRepository.insertIngredient(ingredientName)
+        }
     }
 }

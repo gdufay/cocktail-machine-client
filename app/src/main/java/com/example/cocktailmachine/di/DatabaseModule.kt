@@ -2,9 +2,9 @@ package com.example.cocktailmachine.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.cocktailmachine.database.CocktailDao
-import com.example.cocktailmachine.database.CocktailDatabase
-import com.example.cocktailmachine.database.IngredientDao
+import com.example.cocktailmachine.data.CocktailDao
+import com.example.cocktailmachine.data.CocktailDatabase
+import com.example.cocktailmachine.data.IngredientDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

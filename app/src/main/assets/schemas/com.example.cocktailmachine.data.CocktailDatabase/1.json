@@ -1,0 +1,155 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "470f83b81a049220e510bd88c0659694",
+    "entities": [
+      {
+        "tableName": "Cocktail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cocktailId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cocktailName` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "cocktailId",
+            "columnName": "cocktailId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cocktailName",
+            "columnName": "cocktailName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "cocktailId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Cocktail_cocktailName",
+            "unique": true,
+            "columnNames": [
+              "cocktailName"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Cocktail_cocktailName` ON `${TABLE_NAME}` (`cocktailName`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Ingredient",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ingredientId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ingredientName` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "ingredientId",
+            "columnName": "ingredientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ingredientName",
+            "columnName": "ingredientName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "ingredientId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Ingredient_ingredientName",
+            "unique": true,
+            "columnNames": [
+              "ingredientName"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Ingredient_ingredientName` ON `${TABLE_NAME}` (`ingredientName`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Quantity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`quantityId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cocktailId` INTEGER NOT NULL, `ingredientId` INTEGER NOT NULL, `quantity` INTEGER NOT NULL, FOREIGN KEY(`cocktailId`) REFERENCES `Cocktail`(`cocktailId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`ingredientId`) REFERENCES `Ingredient`(`ingredientId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "quantityId",
+            "columnName": "quantityId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cocktailId",
+            "columnName": "cocktailId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ingredientId",
+            "columnName": "ingredientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "quantityId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Quantity_cocktailId_ingredientId",
+            "unique": true,
+            "columnNames": [
+              "cocktailId",
+              "ingredientId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Quantity_cocktailId_ingredientId` ON `${TABLE_NAME}` (`cocktailId`, `ingredientId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Cocktail",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cocktailId"
+            ],
+            "referencedColumns": [
+              "cocktailId"
+            ]
+          },
+          {
+            "table": "Ingredient",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "ingredientId"
+            ],
+            "referencedColumns": [
+              "ingredientId"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '470f83b81a049220e510bd88c0659694')"
+    ]
+  }
+}

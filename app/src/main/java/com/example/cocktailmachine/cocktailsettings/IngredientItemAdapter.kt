@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
-import com.example.cocktailmachine.database.IngredientWithQuantity
+import com.example.cocktailmachine.data.IngredientWithQuantity
 
 class IngredientItemAdapter : RecyclerView.Adapter<IngredientItemAdapter.ViewHolder>() {
     var ingredients = listOf<IngredientWithQuantity>()

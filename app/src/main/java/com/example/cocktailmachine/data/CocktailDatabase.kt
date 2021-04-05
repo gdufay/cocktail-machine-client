@@ -1,4 +1,4 @@
-package com.example.cocktailmachine.database
+package com.example.cocktailmachine.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

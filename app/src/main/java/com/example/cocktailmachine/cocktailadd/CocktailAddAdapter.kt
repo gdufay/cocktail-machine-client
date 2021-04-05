@@ -7,8 +7,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
-import com.example.cocktailmachine.database.Ingredient
-import com.example.cocktailmachine.database.Quantity
+import com.example.cocktailmachine.data.Ingredient
+import com.example.cocktailmachine.data.Quantity
 import com.example.cocktailmachine.databinding.FragmentCocktailAddIngredientBinding
 
 class CocktailAddAdapter : RecyclerView.Adapter<CocktailAddAdapter.ViewHolder>() {
