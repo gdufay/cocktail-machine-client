@@ -19,4 +19,8 @@ class IngredientRepository @Inject constructor(private val ingredientDao: Ingred
             )
         }
     }
+
+    suspend fun insertQuantity(cocktailId: Int, ingredientId: Int, quantity: Short) {
+        ingredientDao.insertQuantity(Quantity(0, cocktailId, ingredientId, quantity))
+    }
 }

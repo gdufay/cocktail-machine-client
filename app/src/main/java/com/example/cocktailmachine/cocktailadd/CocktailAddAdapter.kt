@@ -1,6 +1,5 @@
 package com.example.cocktailmachine.cocktailadd
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -14,9 +13,8 @@ import com.example.cocktailmachine.databinding.FragmentCocktailAddIngredientBind
 class CocktailAddAdapter : RecyclerView.Adapter<CocktailAddAdapter.ViewHolder>() {
     var quantity = listOf<Quantity>()
 
-    // TODO: rename
-    // TODO: reduce when already choose
-    var foo = listOf<Ingredient>()
+    // TODO: remove selected ingredient from list to avoid duplicate (ex: water 5cl and water 10cl)
+    var ingredientList = listOf<Ingredient>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -35,7 +33,7 @@ class CocktailAddAdapter : RecyclerView.Adapter<CocktailAddAdapter.ViewHolder>()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = ingredients[position]
 
-        holder.bind(item, foo)
+        holder.bind(item, ingredientList)
     }
 
     override fun getItemCount() = ingredients.size
@@ -51,7 +49,7 @@ class CocktailAddAdapter : RecyclerView.Adapter<CocktailAddAdapter.ViewHolder>()
                 ingredient = item
                 (ingredientName.editText as AutoCompleteTextView).setAdapter(adapter)
                 (ingredientName.editText as AutoCompleteTextView).setOnItemClickListener { _, _, position, _ ->
-                    Log.i("AddAdapter", ingredients[position].ingredientId.toString())
+                    item.ingredientId = ingredients[position].ingredientId
                 }
             }
         }

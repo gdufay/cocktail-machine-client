@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "470f83b81a049220e510bd88c0659694",
+    "identityHash": "fd0c700ef024c0c684ec536dbe085de0",
     "entities": [
       {
         "tableName": "Cocktail",
@@ -118,6 +118,14 @@
               "ingredientId"
             ],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Quantity_cocktailId_ingredientId` ON `${TABLE_NAME}` (`cocktailId`, `ingredientId`)"
+          },
+          {
+            "name": "index_Quantity_ingredientId",
+            "unique": false,
+            "columnNames": [
+              "ingredientId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Quantity_ingredientId` ON `${TABLE_NAME}` (`ingredientId`)"
           }
         ],
         "foreignKeys": [
@@ -149,7 +157,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '470f83b81a049220e510bd88c0659694')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fd0c700ef024c0c684ec536dbe085de0')"
     ]
   }
 }

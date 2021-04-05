@@ -75,7 +75,7 @@ class CocktailAddFragment : Fragment(), FragmentResultListener {
 
             ingredients.observe(viewLifecycleOwner, {
                 it?.let {
-                    adapter.foo = it
+                    adapter.ingredientList = it
                 }
             })
 

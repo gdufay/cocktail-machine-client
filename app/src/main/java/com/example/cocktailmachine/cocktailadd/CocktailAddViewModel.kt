@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class IngredientQuantity(
+    var ingredientId: Int = 0,
     var name: String = "",
     var quantity: String = "",
 )
@@ -68,7 +69,16 @@ open class CocktailAddViewModel @Inject constructor(
 
     private fun addCocktailDB() {
         viewModelScope.launch {
-            cocktailRepository.insertCocktail(_cocktailName)
+            val cocktailId = cocktailRepository.insertCocktail(_cocktailName).toInt()
+
+            // TODO: optimize
+            for (ingredient in cocktailIngredients.value ?: listOf()) {
+                ingredientRepository.insertQuantity(
+                    cocktailId,
+                    ingredient.ingredientId,
+                    ingredient.quantity.toShort()
+                )
+            }
         }
     }
 

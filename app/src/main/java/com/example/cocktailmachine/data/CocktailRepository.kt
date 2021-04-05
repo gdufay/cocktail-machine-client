@@ -1,5 +1,6 @@
 package com.example.cocktailmachine.data
 
+import java.util.*
 import javax.inject.Inject
 
 class CocktailRepository @Inject constructor(private val cocktailDao: CocktailDao) {
@@ -7,6 +8,17 @@ class CocktailRepository @Inject constructor(private val cocktailDao: CocktailDa
 
     fun getCocktails() = cocktailDao.getCocktails()
 
-    suspend fun insertCocktail(cocktailName: String) =
-        cocktailDao.insertCocktail(Cocktail(0, cocktailName))
+    @Throws(IllegalArgumentException::class)
+    suspend fun insertCocktail(cocktailName: String): Long {
+        // TODO: handle blank cocktail name
+        if (cocktailName.isNotBlank()) {
+            return cocktailDao.insertCocktail(
+                Cocktail(
+                    0,
+                    cocktailName.toLowerCase(Locale.getDefault())
+                )
+            )
+        }
+        throw IllegalArgumentException("cocktailName shouldn't be blank")
+    }
 }

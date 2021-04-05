@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CocktailDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertCocktail(vararg cocktails: Cocktail)
+    suspend fun insertCocktail(cocktail: Cocktail): Long
 
     @Delete
     suspend fun deleteCocktail(cocktail: Cocktail)
@@ -22,7 +22,7 @@ interface CocktailDao {
 @Dao
 interface IngredientDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertIngredient(vararg ingredients: Ingredient)
+    suspend fun insertIngredient(ingredient: Ingredient)
 
     @Delete
     suspend fun deleteIngredient(ingredient: Ingredient)
@@ -39,4 +39,7 @@ interface IngredientDao {
                 + " WHERE cocktailId = :cocktailId"
     )
     fun getAllIngredientsWithQuantity(cocktailId: Int): Flow<List<IngredientWithQuantity>>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertQuantity(vararg quantity: Quantity)
 }

@@ -1,10 +1,7 @@
 package com.example.cocktailmachine.data
 
 import androidx.annotation.NonNull
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(indices = [Index(value = ["cocktailName"], unique = true)])
 data class Cocktail(
@@ -43,7 +40,7 @@ data class Ingredient(
 data class Quantity(
     @PrimaryKey(autoGenerate = true) val quantityId: Int,
     @NonNull val cocktailId: Int,
-    @NonNull val ingredientId: Int,
+    @NonNull @ColumnInfo(index = true) val ingredientId: Int,
     @NonNull var quantity: Short
 )
 
@@ -51,15 +48,3 @@ data class IngredientWithQuantity(
     val ingredientName: String,
     val quantity: Short
 )
-
-/*
-// TODO: See to use only relevant data
-data class CocktailWithIngredients(
-    @Embedded var cocktail: Cocktail,
-    @Relation(
-        parentColumn = "cocktailId",
-        entityColumn = "cocktailId"
-    )
-    val ingredients: MutableList<Ingredient>
-)
- */
