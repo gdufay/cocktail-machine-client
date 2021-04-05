@@ -44,7 +44,6 @@ open class CocktailAddViewModel @Inject constructor(
     val cocktailIngredients: LiveData<List<IngredientQuantity>>
         get() = _cocktailIngredients
 
-    // TODO: add error when ingredient not filled
     fun addIngredient() {
         if (_cocktailIngredients.value?.any { x -> x.name.isBlank() || x.quantity.isBlank() } == true) {
             _toastEvent.value = "Fill all ingredients before adding new one"

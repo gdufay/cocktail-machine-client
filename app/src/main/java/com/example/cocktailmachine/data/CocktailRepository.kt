@@ -8,10 +8,7 @@ class CocktailRepository @Inject constructor(private val cocktailDao: CocktailDa
 
     fun getCocktails() = cocktailDao.getCocktails()
 
-    @Throws(IllegalArgumentException::class)
     suspend fun insertCocktail(cocktailName: String): Long {
-        // TODO: handle blank cocktail name
-        if (cocktailName.isNotBlank()) {
             return cocktailDao.insertCocktail(
                 Cocktail(
                     0,
@@ -19,6 +16,4 @@ class CocktailRepository @Inject constructor(private val cocktailDao: CocktailDa
                 )
             )
         }
-        throw IllegalArgumentException("cocktailName shouldn't be blank")
-    }
 }
