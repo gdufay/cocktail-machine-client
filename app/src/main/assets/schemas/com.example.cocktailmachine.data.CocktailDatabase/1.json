@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fd0c700ef024c0c684ec536dbe085de0",
+    "identityHash": "f15d8a46b8c5b4009297dc209744215c",
     "entities": [
       {
         "tableName": "Cocktail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cocktailId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cocktailName` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cocktailId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cocktailName` TEXT NOT NULL, `cocktailUri` TEXT)",
         "fields": [
           {
             "fieldPath": "cocktailId",
@@ -19,6 +19,12 @@
             "columnName": "cocktailName",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "cocktailUri",
+            "columnName": "cocktailUri",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -157,7 +163,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fd0c700ef024c0c684ec536dbe085de0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f15d8a46b8c5b4009297dc209744215c')"
     ]
   }
 }

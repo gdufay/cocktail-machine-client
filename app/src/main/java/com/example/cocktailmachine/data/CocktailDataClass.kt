@@ -1,5 +1,6 @@
 package com.example.cocktailmachine.data
 
+import android.net.Uri
 import androidx.annotation.NonNull
 import androidx.room.*
 
@@ -7,7 +8,7 @@ import androidx.room.*
 data class Cocktail(
     @PrimaryKey(autoGenerate = true) val cocktailId: Int,
     @NonNull var cocktailName: String,
-    // @Ignore var picture: Bitmap? // Not used right now
+    var cocktailUri: Uri?
 )
 
 @Entity(indices = [Index(value = ["ingredientName"], unique = true)])

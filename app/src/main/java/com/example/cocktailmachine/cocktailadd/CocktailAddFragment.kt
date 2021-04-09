@@ -1,8 +1,12 @@
 package com.example.cocktailmachine.cocktailadd
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
@@ -11,12 +15,28 @@ import com.example.cocktailmachine.R
 import com.example.cocktailmachine.databinding.CocktailAddFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+// TODO: move
+// TODO: rename
+class MyOpenDocument : ActivityResultContracts.OpenDocument() {
+    override fun createIntent(context: Context, input: Array<out String>): Intent {
+        return super.createIntent(context, input)
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            .addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            .apply {
+                action = Intent.ACTION_OPEN_DOCUMENT
+                type = "image/*"
+            }
+    }
+}
+
 @AndroidEntryPoint
 class CocktailAddFragment : Fragment(), FragmentResultListener {
 
     private lateinit var binding: CocktailAddFragmentBinding
     private val addViewModel: CocktailAddViewModel by viewModels()
     private val adapter = CocktailAddAdapter()
+    private val getContent = registerForActivityResult(MyOpenDocument(), this::getContentCallback)
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +55,9 @@ class CocktailAddFragment : Fragment(), FragmentResultListener {
             lifecycleOwner = viewLifecycleOwner
             viewModel = addViewModel
             ingredientList.adapter = adapter
+            addCocktailBtn.setOnClickListener {
+                getContent.launch(arrayOf("image/*"))
+            }
         }
 
         viewModelApply()
@@ -92,6 +115,18 @@ class CocktailAddFragment : Fragment(), FragmentResultListener {
             NewIngredientDialogFragment.ARG_REQUEST_KEY -> result.getString(
                 NewIngredientDialogFragment.ARG_INGREDIENT
             )?.let { addViewModel.newIngredient(it) }
+        }
+    }
+
+    private fun getContentCallback(uri: Uri?) {
+        uri?.let {
+            requireContext().contentResolver.takePersistableUriPermission(
+                it,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+            addViewModel.setCocktailUri(it)
+
+            binding.addCocktailBtn.visibility = View.GONE
         }
     }
 }

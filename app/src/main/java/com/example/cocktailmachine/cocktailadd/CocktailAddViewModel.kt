@@ -1,5 +1,6 @@
 package com.example.cocktailmachine.cocktailadd
 
+import android.net.Uri
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
@@ -22,6 +23,7 @@ open class CocktailAddViewModel @Inject constructor(
     private val ingredientRepository: IngredientRepository
 ) :
     ViewModel(), Observable {
+
     // TODO: use SingleLiveEvent
     private val _toastEvent = MutableLiveData<String>()
     val toastEvent: LiveData<String>
@@ -43,6 +45,14 @@ open class CocktailAddViewModel @Inject constructor(
     private val _cocktailIngredients = MutableLiveData(listOf(IngredientQuantity()))
     val cocktailIngredients: LiveData<List<IngredientQuantity>>
         get() = _cocktailIngredients
+
+    private val _cocktailUri = MutableLiveData<Uri>()
+    val cocktailUri: LiveData<Uri>
+        get() = _cocktailUri
+
+    fun setCocktailUri(uri: Uri) {
+        _cocktailUri.value = uri
+    }
 
     fun addIngredient() {
         if (_cocktailIngredients.value?.any { x -> x.name.isBlank() || x.quantity.isBlank() } == true) {
@@ -68,7 +78,8 @@ open class CocktailAddViewModel @Inject constructor(
 
     private fun addCocktailDB() {
         viewModelScope.launch {
-            val cocktailId = cocktailRepository.insertCocktail(_cocktailName).toInt()
+            val cocktailId =
+                cocktailRepository.insertCocktail(_cocktailName, _cocktailUri.value).toInt()
 
             // TODO: optimize
             for (ingredient in cocktailIngredients.value ?: listOf()) {

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.data.Cocktail
+import com.squareup.picasso.Picasso
 
 class CocktailListAdapter(private val listener: (Cocktail) -> Unit) :
     RecyclerView.Adapter<CocktailListAdapter.ViewHolder>() {
@@ -40,6 +41,9 @@ class CocktailListAdapter(private val listener: (Cocktail) -> Unit) :
 
         fun bind(item: Cocktail) {
             cocktailName.text = item.cocktailName
+            item.cocktailUri?.let {
+                Picasso.get().load(it).into(cocktailImage)
+            }
         }
 
         companion object {
