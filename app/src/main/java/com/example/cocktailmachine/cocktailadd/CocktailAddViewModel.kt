@@ -35,6 +35,18 @@ open class CocktailAddViewModel @Inject constructor(
 
     val ingredients = ingredientRepository.getIngredients().asLiveData()
 
+    private val _cocktailIngredients = MutableLiveData(listOf(IngredientQuantity()))
+    val cocktailIngredients: LiveData<List<IngredientQuantity>>
+        get() = _cocktailIngredients
+
+    private val _cocktailUri = MutableLiveData<Uri>()
+    val cocktailUri: LiveData<Uri>
+        get() = _cocktailUri
+
+    private val _createSuccess = MutableLiveData<Boolean>()
+    val createSuccess: LiveData<Boolean>
+        get() = _createSuccess
+
     @Bindable
     fun getCocktailName(): String {
         return _cocktailName
@@ -44,13 +56,6 @@ open class CocktailAddViewModel @Inject constructor(
         _cocktailName = value
     }
 
-    private val _cocktailIngredients = MutableLiveData(listOf(IngredientQuantity()))
-    val cocktailIngredients: LiveData<List<IngredientQuantity>>
-        get() = _cocktailIngredients
-
-    private val _cocktailUri = MutableLiveData<Uri>()
-    val cocktailUri: LiveData<Uri>
-        get() = _cocktailUri
 
     fun setCocktailUri(uri: Uri) {
         _cocktailUri.value = uri
@@ -73,7 +78,6 @@ open class CocktailAddViewModel @Inject constructor(
             _toastEvent.value = "Fill all fields to add cocktail"
         } else {
             addCocktailDB()
-            // TODO: navigate back to list
         }
     }
 
@@ -84,6 +88,7 @@ open class CocktailAddViewModel @Inject constructor(
                     cocktailRepository.createCocktail(_cocktailName, cocktailUri.value, it)
                     // TODO: get string from res/strings
                     _toastEvent.value = "Cocktail added !"
+                    _createSuccess.value = true
                 } catch (e: SQLiteException) {
                     Log.e("CocktailAddViewModel", "$e")
                     // TODO: get string from res/strings

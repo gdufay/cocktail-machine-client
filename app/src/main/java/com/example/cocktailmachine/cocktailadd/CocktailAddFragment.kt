@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.databinding.CocktailAddFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -105,6 +106,12 @@ class CocktailAddFragment : Fragment(), FragmentResultListener {
             toastEvent.observe(viewLifecycleOwner, {
                 it?.let {
                     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
+            })
+
+            createSuccess.observe(viewLifecycleOwner, {
+                it?.let {
+                    findNavController().navigateUp()
                 }
             })
         }
