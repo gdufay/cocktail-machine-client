@@ -41,8 +41,11 @@ class CocktailListAdapter(private val listener: (Cocktail) -> Unit) :
 
         fun bind(item: Cocktail) {
             cocktailName.text = item.cocktailName
-            item.cocktailUri?.let {
-                Picasso.get().load(it).into(cocktailImage)
+
+            if (item.cocktailUri != null) {
+                Picasso.get().load(item.cocktailUri!!).into(cocktailImage)
+            } else {
+                cocktailImage.setImageResource(R.drawable.ic_insert_photo)
             }
         }
 
