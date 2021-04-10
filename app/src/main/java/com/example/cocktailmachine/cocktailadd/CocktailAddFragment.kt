@@ -103,25 +103,34 @@ class CocktailAddFragment : Fragment(), FragmentResultListener {
                 }
             })
 
-            toastEvent.observe(viewLifecycleOwner, {
+            event.observe(viewLifecycleOwner, {
                 it?.let {
-                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                }
-            })
-
-            createSuccess.observe(viewLifecycleOwner, {
-                it?.let {
-                    findNavController().navigateUp()
+                    handleViewModelEvent(it)
                 }
             })
         }
     }
 
+    private fun handleViewModelEvent(code: CocktailAddViewModel.EventCode) {
+        val text = when (code) {
+            CocktailAddViewModel.EventCode.DB_EXCEPTION -> R.string.check_inserted_value
+            CocktailAddViewModel.EventCode.CREATE_SUCCESS -> {
+                findNavController().navigateUp()
+                R.string.cocktail_added
+            }
+            CocktailAddViewModel.EventCode.MISS_FIELD -> R.string.fill_all_fields
+        }
+
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onFragmentResult(requestKey: String, result: Bundle) {
         when (requestKey) {
-            NewIngredientDialogFragment.ARG_REQUEST_KEY -> result.getString(
-                NewIngredientDialogFragment.ARG_INGREDIENT
-            )?.let { addViewModel.newIngredient(it) }
+            NewIngredientDialogFragment.ARG_REQUEST_KEY -> {
+                result.getString(NewIngredientDialogFragment.ARG_INGREDIENT)?.let {
+                    addViewModel.newIngredient(it)
+                }
+            }
         }
     }
 

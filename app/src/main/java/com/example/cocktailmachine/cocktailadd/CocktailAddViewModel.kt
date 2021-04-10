@@ -26,11 +26,6 @@ open class CocktailAddViewModel @Inject constructor(
 ) :
     ViewModel(), Observable {
 
-    // TODO: use SingleLiveEvent
-    private val _toastEvent = MutableLiveData<String>()
-    val toastEvent: LiveData<String>
-        get() = _toastEvent
-
     private var _cocktailName: String = ""
 
     val ingredients = ingredientRepository.getIngredients().asLiveData()
@@ -43,9 +38,9 @@ open class CocktailAddViewModel @Inject constructor(
     val cocktailUri: LiveData<Uri>
         get() = _cocktailUri
 
-    private val _createSuccess = MutableLiveData<Boolean>()
-    val createSuccess: LiveData<Boolean>
-        get() = _createSuccess
+    private val _event = MutableLiveData<EventCode>()
+    val event: LiveData<EventCode>
+        get() = _event
 
     @Bindable
     fun getCocktailName(): String {
@@ -63,7 +58,7 @@ open class CocktailAddViewModel @Inject constructor(
 
     fun addIngredient() {
         if (_cocktailIngredients.value?.any { x -> x.name.isBlank() || x.quantity.isBlank() } == true) {
-            _toastEvent.value = "Fill all ingredients before adding new one"
+            _event.value = EventCode.MISS_FIELD
         } else {
             _cocktailIngredients.value = _cocktailIngredients.value?.plus(IngredientQuantity())
         }
@@ -75,7 +70,8 @@ open class CocktailAddViewModel @Inject constructor(
         if (_cocktailName.isBlank() || ingredients.isEmpty()
             || ingredients.any { x -> x.name.isBlank() || x.quantity.isBlank() }
         ) {
-            _toastEvent.value = "Fill all fields to add cocktail"
+            // TODO: display error
+            _event.value = EventCode.MISS_FIELD
         } else {
             addCocktailDB()
         }
@@ -86,13 +82,10 @@ open class CocktailAddViewModel @Inject constructor(
             cocktailIngredients.value?.let {
                 try {
                     cocktailRepository.createCocktail(_cocktailName, cocktailUri.value, it)
-                    // TODO: get string from res/strings
-                    _toastEvent.value = "Cocktail added !"
-                    _createSuccess.value = true
+                    _event.value = EventCode.CREATE_SUCCESS
                 } catch (e: SQLiteException) {
                     Log.e("CocktailAddViewModel", "$e")
-                    // TODO: get string from res/strings
-                    _toastEvent.value = "Please, fill all required value"
+                    _event.value = EventCode.DB_EXCEPTION
                 }
             }
         }
@@ -113,4 +106,6 @@ open class CocktailAddViewModel @Inject constructor(
             ingredientRepository.insertIngredient(ingredientName)
         }
     }
+
+    enum class EventCode { CREATE_SUCCESS, MISS_FIELD, DB_EXCEPTION }
 }
