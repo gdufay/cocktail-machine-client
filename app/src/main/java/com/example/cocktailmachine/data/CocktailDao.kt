@@ -14,8 +14,8 @@ interface CocktailDao {
     @Query("SELECT * FROM Cocktail WHERE cocktailId = :key")
     fun getCocktail(key: Int): Flow<Cocktail>
 
-    @Query("SELECT * FROM Cocktail")
-    fun getCocktails(): Flow<List<Cocktail>>
+    @Query("SELECT * FROM Cocktail WHERE cocktailName LIKE '%' || :query || '%'")
+    fun getCocktails(query: String): Flow<List<Cocktail>>
 
 }
 

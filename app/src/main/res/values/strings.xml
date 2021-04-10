@@ -36,4 +36,10 @@
     <string name="cocktail_added">Cocktail added !</string>
     <string name="check_inserted_value">Please, check inserted value</string>
     <string name="fill_all_fields">Fill all fields to add cocktail</string>
+
+    <!-- Strings used for different user input handling -->
+    <string name="search_cocktail">Search Cocktail</string>
+    <string name="sort">Sort</string>
+    <string name="filter">Filter</string>
+
 </resources>

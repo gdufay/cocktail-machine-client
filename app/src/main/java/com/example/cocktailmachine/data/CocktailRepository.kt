@@ -12,7 +12,7 @@ class CocktailRepository @Inject constructor(private val database: CocktailDatab
 
     fun getCocktail(cocktailId: Int) = cocktailDao.getCocktail(cocktailId)
 
-    fun getCocktails() = cocktailDao.getCocktails()
+    fun getCocktails(query: String = "") = cocktailDao.getCocktails(query)
 
     suspend fun createCocktail(
         cocktailName: String,
