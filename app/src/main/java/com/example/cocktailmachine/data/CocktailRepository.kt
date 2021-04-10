@@ -29,9 +29,8 @@ class CocktailRepository @Inject constructor(private val database: CocktailDatab
     suspend fun insertCocktail(cocktailName: String, cocktailUri: Uri? = null): Long {
         return cocktailDao.insertCocktail(
             Cocktail(
-                0,
-                cocktailName.toLowerCase(Locale.getDefault()),
-                cocktailUri
+                cocktailName = cocktailName.toLowerCase(Locale.getDefault()),
+                cocktailUri = cocktailUri
             )
         )
     }
@@ -39,7 +38,11 @@ class CocktailRepository @Inject constructor(private val database: CocktailDatab
     suspend fun insertListQuantity(cocktailId: Int, quantities: List<IngredientQuantity>) {
         insertListQuantity(
             quantities.map {
-                Quantity(0, cocktailId, it.ingredientId, it.quantity.toShort())
+                Quantity(
+                    cocktailId = cocktailId,
+                    ingredientId = it.ingredientId,
+                    quantity = it.quantity.toShort()
+                )
             }
         )
     }

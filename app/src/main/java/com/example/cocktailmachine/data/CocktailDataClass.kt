@@ -6,14 +6,14 @@ import androidx.room.*
 
 @Entity(indices = [Index(value = ["cocktailName"], unique = true)])
 data class Cocktail(
-    @PrimaryKey(autoGenerate = true) val cocktailId: Int,
+    @PrimaryKey(autoGenerate = true) val cocktailId: Int = 0,
     @NonNull var cocktailName: String,
     var cocktailUri: Uri? = null
 )
 
 @Entity(indices = [Index(value = ["ingredientName"], unique = true)])
 data class Ingredient(
-    @PrimaryKey(autoGenerate = true) val ingredientId: Int,
+    @PrimaryKey(autoGenerate = true) val ingredientId: Int = 0,
     @NonNull var ingredientName: String,
 ) {
     override fun toString(): String {
@@ -39,7 +39,7 @@ data class Ingredient(
     ]
 )
 data class Quantity(
-    @PrimaryKey(autoGenerate = true) val quantityId: Int,
+    @PrimaryKey(autoGenerate = true) val quantityId: Int = 0,
     @NonNull val cocktailId: Int,
     @NonNull @ColumnInfo(index = true) val ingredientId: Int,
     @NonNull var quantity: Short
