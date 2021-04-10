@@ -15,11 +15,11 @@ import com.example.cocktailmachine.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CocktailListFragment : Fragment() {
+class CocktailListFragment : Fragment(), CocktailListAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentCocktailListBinding
     private val viewModel: CocktailListViewModel by viewModels()
-    private val adapter = CocktailListAdapter(this::adapterCallback)
+    private val adapter = CocktailListAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +46,9 @@ class CocktailListFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        viewModelApply()
+        viewModel.cocktails.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -64,17 +66,7 @@ class CocktailListFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun viewModelApply() {
-        viewModel.apply {
-            cocktails.observe(viewLifecycleOwner, {
-                it?.let {
-                    adapter.cocktails = it
-                }
-            })
-        }
-    }
-
-    private fun adapterCallback(cocktail: Cocktail) {
+    override fun onItemClick(cocktail: Cocktail) {
         findNavController().navigate(
             CocktailListFragmentDirections.actionRecipeFragmentToCocktailSettingsFragment(
                 cocktail.cocktailId

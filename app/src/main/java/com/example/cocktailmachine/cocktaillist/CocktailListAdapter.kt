@@ -5,39 +5,43 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.data.Cocktail
 import com.squareup.picasso.Picasso
 
-class CocktailListAdapter(private val listener: (Cocktail) -> Unit) :
-    RecyclerView.Adapter<CocktailListAdapter.ViewHolder>() {
-    var cocktails = listOf<Cocktail>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class CocktailListAdapter(private val listener: OnItemClickListener) :
+    ListAdapter<Cocktail, CocktailListAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val view = layoutInflater.inflate(R.layout.cocktail_item_view, parent, false)
+
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = cocktails[position]
+        val item = getItem(position)
 
         holder.bind(item)
-        holder.itemView.setOnClickListener {
-            listener(item)
-        }
     }
 
+    inner class ViewHolder constructor(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
 
-    override fun getItemCount() = cocktails.size
-
-    class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val cocktailImage: ImageView = itemView.findViewById(R.id.item_cocktail_img)
         private val cocktailName: TextView = itemView.findViewById(R.id.item_cocktail_name)
 
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(getItem(position))
+                }
+            }
+        }
 
         fun bind(item: Cocktail) {
             cocktailName.text = item.cocktailName
@@ -48,15 +52,17 @@ class CocktailListAdapter(private val listener: (Cocktail) -> Unit) :
                 cocktailImage.setImageResource(R.drawable.ic_insert_photo)
             }
         }
-
-        companion object {
-            fun from(parent: ViewGroup): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.cocktail_item_view, parent, false)
-
-                return ViewHolder(view)
-            }
-        }
     }
 
+    interface OnItemClickListener {
+        fun onItemClick(cocktail: Cocktail)
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<Cocktail>() {
+        override fun areItemsTheSame(oldItem: Cocktail, newItem: Cocktail) =
+            oldItem.cocktailId == newItem.cocktailId
+
+        override fun areContentsTheSame(oldItem: Cocktail, newItem: Cocktail) =
+            oldItem == newItem
+    }
 }
