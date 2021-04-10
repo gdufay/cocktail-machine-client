@@ -38,7 +38,6 @@ class CocktailAddFragment : Fragment(), FragmentResultListener {
     private val adapter = CocktailAddAdapter()
     private val getContent = registerForActivityResult(MyOpenDocument(), this::getContentCallback)
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -111,14 +110,14 @@ class CocktailAddFragment : Fragment(), FragmentResultListener {
         }
     }
 
-    private fun handleViewModelEvent(code: CocktailAddViewModel.EventCode) {
+    private fun handleViewModelEvent(code: EventCode) {
         val text = when (code) {
-            CocktailAddViewModel.EventCode.DB_EXCEPTION -> R.string.check_inserted_value
-            CocktailAddViewModel.EventCode.CREATE_SUCCESS -> {
+            EventCode.DB_EXCEPTION -> R.string.check_inserted_value
+            EventCode.CREATE_SUCCESS -> {
                 findNavController().navigateUp()
                 R.string.cocktail_added
             }
-            CocktailAddViewModel.EventCode.MISS_FIELD -> R.string.fill_all_fields
+            EventCode.MISS_FIELD -> R.string.fill_all_fields
         }
 
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
