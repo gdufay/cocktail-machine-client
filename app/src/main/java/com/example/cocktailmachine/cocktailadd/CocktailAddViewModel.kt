@@ -7,6 +7,8 @@ import androidx.lifecycle.*
 import com.example.cocktailmachine.data.CocktailRepository
 import com.example.cocktailmachine.data.IngredientRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,56 +36,55 @@ open class CocktailAddViewModel @Inject constructor(
     val cocktailUri: LiveData<Uri>
         get() = _cocktailUri
 
-    private val _event = MutableLiveData<EventCode>()
-    val event: LiveData<EventCode>
-        get() = _event
+    private val addCocktailEventChannel = Channel<AddCocktailEvent>()
+    val addCocktailEvent = addCocktailEventChannel.receiveAsFlow()
 
     fun setCocktailUri(uri: Uri) {
         _cocktailUri.value = uri
     }
 
-    fun addIngredient() {
+    fun addIngredient() = viewModelScope.launch {
         if (_cocktailIngredients.value?.any { x -> x.name.isBlank() || x.quantity.isBlank() } == true) {
-            _event.value = EventCode.MISS_FIELD
+            addCocktailEventChannel.send(AddCocktailEvent.MissingField)
         } else {
             _cocktailIngredients.value = _cocktailIngredients.value?.plus(IngredientQuantity())
         }
     }
 
-    fun addCocktail() {
+    fun addCocktail() = viewModelScope.launch {
         val ingredients = cocktailIngredients.value ?: listOf()
 
         if (cocktailName.value.isNullOrBlank() || ingredients.isEmpty()
             || ingredients.any { x -> x.name.isBlank() || x.quantity.isBlank() }
         ) {
             // TODO: display error
-            _event.value = EventCode.MISS_FIELD
+            addCocktailEventChannel.send(AddCocktailEvent.MissingField)
         } else {
             addCocktailDB()
         }
     }
 
-    private fun addCocktailDB() {
-        viewModelScope.launch {
-            try {
-                cocktailRepository.createCocktail(
-                    cocktailName.value!!,
-                    cocktailUri.value,
-                    cocktailIngredients.value!!
-                )
-                _event.value = EventCode.CREATE_SUCCESS
-            } catch (e: SQLiteException) {
-                Log.e("CocktailAddViewModel", "$e")
-                _event.value = EventCode.DB_EXCEPTION
-            }
+    private fun addCocktailDB() = viewModelScope.launch {
+        try {
+            cocktailRepository.createCocktail(
+                cocktailName.value!!,
+                cocktailUri.value,
+                cocktailIngredients.value!!
+            )
+            addCocktailEventChannel.send(AddCocktailEvent.CreateCocktailSuccess)
+        } catch (e: SQLiteException) {
+            Log.e("CocktailAddViewModel", "$e")
+            addCocktailEventChannel.send(AddCocktailEvent.SQLInsertError)
         }
     }
 
-    fun newIngredient(ingredientName: String) {
-        viewModelScope.launch {
-            ingredientRepository.insertIngredient(ingredientName)
-        }
+    fun newIngredient(ingredientName: String) = viewModelScope.launch {
+        ingredientRepository.insertIngredient(ingredientName)
+    }
+
+    sealed class AddCocktailEvent {
+        object CreateCocktailSuccess : AddCocktailEvent()
+        object SQLInsertError : AddCocktailEvent()
+        object MissingField : AddCocktailEvent()
     }
 }
-
-enum class EventCode { CREATE_SUCCESS, MISS_FIELD, DB_EXCEPTION }

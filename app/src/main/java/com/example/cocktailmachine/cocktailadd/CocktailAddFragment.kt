@@ -11,10 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.databinding.CocktailAddFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 // TODO: move
 // TODO: rename
@@ -90,34 +92,30 @@ class CocktailAddFragment : Fragment(), FragmentResultListener {
 
     private fun viewModelApply() {
         addViewModel.apply {
-            cocktailIngredients.observe(viewLifecycleOwner, {
-                it?.let {
-                    adapter.ingredients = it
-                }
-            })
+            cocktailIngredients.observe(viewLifecycleOwner) {
+                adapter.ingredients = it
+            }
 
-            ingredients.observe(viewLifecycleOwner, {
-                it?.let {
-                    adapter.ingredientList = it
-                }
-            })
+            ingredients.observe(viewLifecycleOwner) {
+                adapter.ingredientList = it
+            }
 
-            event.observe(viewLifecycleOwner, {
-                it?.let {
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                addViewModel.addCocktailEvent.collect {
                     handleViewModelEvent(it)
                 }
-            })
+            }
         }
     }
 
-    private fun handleViewModelEvent(code: EventCode) {
-        val text = when (code) {
-            EventCode.DB_EXCEPTION -> R.string.check_inserted_value
-            EventCode.CREATE_SUCCESS -> {
+    private fun handleViewModelEvent(event: CocktailAddViewModel.AddCocktailEvent) {
+        val text = when (event) {
+            is CocktailAddViewModel.AddCocktailEvent.SQLInsertError -> R.string.check_inserted_value
+            is CocktailAddViewModel.AddCocktailEvent.CreateCocktailSuccess -> {
                 findNavController().navigateUp()
                 R.string.cocktail_added
             }
-            EventCode.MISS_FIELD -> R.string.fill_all_fields
+            is CocktailAddViewModel.AddCocktailEvent.MissingField -> R.string.fill_all_fields
         }
 
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
