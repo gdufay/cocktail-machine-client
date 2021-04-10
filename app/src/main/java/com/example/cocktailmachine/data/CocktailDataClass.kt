@@ -8,7 +8,7 @@ import androidx.room.*
 data class Cocktail(
     @PrimaryKey(autoGenerate = true) val cocktailId: Int,
     @NonNull var cocktailName: String,
-    var cocktailUri: Uri?
+    var cocktailUri: Uri? = null
 )
 
 @Entity(indices = [Index(value = ["ingredientName"], unique = true)])

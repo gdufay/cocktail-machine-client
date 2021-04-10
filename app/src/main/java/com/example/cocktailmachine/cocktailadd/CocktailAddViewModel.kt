@@ -1,6 +1,8 @@
 package com.example.cocktailmachine.cocktailadd
 
+import android.database.sqlite.SQLiteException
 import android.net.Uri
+import android.util.Log
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
@@ -71,23 +73,22 @@ open class CocktailAddViewModel @Inject constructor(
             _toastEvent.value = "Fill all fields to add cocktail"
         } else {
             addCocktailDB()
-            _toastEvent.value = "Cocktail added !"
             // TODO: navigate back to list
         }
     }
 
     private fun addCocktailDB() {
         viewModelScope.launch {
-            val cocktailId =
-                cocktailRepository.insertCocktail(_cocktailName, _cocktailUri.value).toInt()
-
-            // TODO: optimize
-            for (ingredient in cocktailIngredients.value ?: listOf()) {
-                ingredientRepository.insertQuantity(
-                    cocktailId,
-                    ingredient.ingredientId,
-                    ingredient.quantity.toShort()
-                )
+            cocktailIngredients.value?.let {
+                try {
+                    cocktailRepository.createCocktail(_cocktailName, cocktailUri.value, it)
+                    // TODO: get string from res/strings
+                    _toastEvent.value = "Cocktail added !"
+                } catch (e: SQLiteException) {
+                    Log.e("CocktailAddViewModel", "$e")
+                    // TODO: get string from res/strings
+                    _toastEvent.value = "Please, fill all required value"
+                }
             }
         }
     }
