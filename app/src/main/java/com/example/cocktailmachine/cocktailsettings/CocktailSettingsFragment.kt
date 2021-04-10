@@ -10,17 +10,19 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.databinding.FragmentCocktailSettingsBinding
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class CocktailSettingsFragment : Fragment() {
 
+    private lateinit var binding: FragmentCocktailSettingsBinding
     private val args: CocktailSettingsFragmentArgs by navArgs()
+    private val adapter = IngredientItemAdapter()
 
     @Inject
     lateinit var viewModelFactory: CocktailSettingsViewModelFactory
-
     private val viewModel: CocktailSettingsViewModel by viewModels {
         CocktailSettingsViewModel.provideFactory(viewModelFactory, args.cocktailId)
     }
@@ -30,10 +32,14 @@ class CocktailSettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding: FragmentCocktailSettingsBinding =
+        binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_cocktail_settings, container, false)
 
-        val adapter = IngredientItemAdapter()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
@@ -41,13 +47,24 @@ class CocktailSettingsFragment : Fragment() {
             ingredientList.adapter = adapter
         }
 
-        viewModel.ingredients.observe(viewLifecycleOwner, {
-            it?.let {
-                adapter.ingredients = it
-            }
-        })
-
-        return binding.root
+        viewModelApply()
     }
 
+    private fun viewModelApply() {
+        viewModel.apply {
+            ingredients.observe(viewLifecycleOwner, {
+                it?.let {
+                    adapter.ingredients = it
+                }
+            })
+
+            cocktail.observe(viewLifecycleOwner, {
+                it?.let {
+                    it.cocktailUri?.let { uri ->
+                        Picasso.get().load(uri).into(binding.bigCocktailImg)
+                    }
+                }
+            })
+        }
+    }
 }
