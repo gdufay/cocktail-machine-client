@@ -46,11 +46,11 @@ class CocktailListAdapter(private val listener: OnItemClickListener) :
         fun bind(item: Cocktail) {
             cocktailName.text = item.cocktailName
 
-            if (item.cocktailUri != null) {
-                Glide.with(itemView).load(item.cocktailUri!!).into(cocktailImage)
-            } else {
-                cocktailImage.setImageResource(R.drawable.ic_insert_photo)
-            }
+            Glide.with(itemView)
+                .load(item.cocktailUri)
+                .centerCrop()
+                .placeholder(R.drawable.ic_insert_photo)
+                .into(cocktailImage)
         }
     }
 
