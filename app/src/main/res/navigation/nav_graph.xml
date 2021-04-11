@@ -6,7 +6,7 @@
     app:startDestination="@id/recipeFragment">
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="com.example.cocktailmachine.cocktaillist.CocktailListFragment"
+        android:name="com.example.cocktailmachine.ui.cocktaillist.CocktailListFragment"
         android:label="@string/recipes"
         tools:layout="@layout/fragment_cocktail_list">
         <action
@@ -18,12 +18,12 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.cocktailmachine.settings.SettingsFragment"
+        android:name="com.example.cocktailmachine.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/cocktailSettingsFragment"
-        android:name="com.example.cocktailmachine.cocktailsettings.CocktailSettingsFragment"
+        android:name="com.example.cocktailmachine.ui.cocktailsettings.CocktailSettingsFragment"
         android:label="CocktailSettingsFragment"
         tools:layout="@layout/fragment_cocktail_settings" >
         <argument
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/cocktailAddFragment"
-        android:name="com.example.cocktailmachine.cocktailadd.CocktailAddFragment"
+        android:name="com.example.cocktailmachine.ui.cocktailadd.CocktailAddFragment"
         android:label="cocktail_add_fragment"
         tools:layout="@layout/cocktail_add_fragment" >
         <action

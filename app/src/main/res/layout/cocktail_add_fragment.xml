@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.cocktailmachine.cocktailadd.CocktailAddViewModel" />
+            type="com.example.cocktailmachine.ui.cocktailadd.CocktailAddViewModel" />
     </data>
 
     <ScrollView

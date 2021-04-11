@@ -1,4 +1,4 @@
-package com.example.cocktailmachine.cocktailadd
+package com.example.cocktailmachine.ui.cocktailadd
 
 import android.database.sqlite.SQLiteException
 import android.net.Uri

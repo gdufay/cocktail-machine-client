@@ -1,4 +1,4 @@
-package com.example.cocktailmachine.cocktaillist
+package com.example.cocktailmachine.ui.cocktaillist
 
 import android.os.Bundle
 import android.view.Menu

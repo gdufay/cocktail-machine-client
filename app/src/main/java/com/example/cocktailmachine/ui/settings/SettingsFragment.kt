@@ -1,4 +1,4 @@
-package com.example.cocktailmachine.settings
+package com.example.cocktailmachine.ui.settings
 
 import androidx.fragment.app.Fragment
 import com.example.cocktailmachine.R

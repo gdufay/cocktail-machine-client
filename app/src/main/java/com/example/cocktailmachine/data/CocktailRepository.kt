@@ -2,7 +2,7 @@ package com.example.cocktailmachine.data
 
 import android.net.Uri
 import androidx.room.withTransaction
-import com.example.cocktailmachine.cocktailadd.IngredientQuantity
+import com.example.cocktailmachine.ui.cocktailadd.IngredientQuantity
 import java.util.*
 import javax.inject.Inject
 

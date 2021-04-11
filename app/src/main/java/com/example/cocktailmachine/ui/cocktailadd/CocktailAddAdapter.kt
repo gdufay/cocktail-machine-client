@@ -1,4 +1,4 @@
-package com.example.cocktailmachine.cocktailadd
+package com.example.cocktailmachine.ui.cocktailadd
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

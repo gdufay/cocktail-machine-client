@@ -1,4 +1,4 @@
-package com.example.cocktailmachine.cocktailsettings
+package com.example.cocktailmachine.ui.cocktailsettings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

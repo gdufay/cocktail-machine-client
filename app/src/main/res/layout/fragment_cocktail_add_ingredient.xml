@@ -6,7 +6,7 @@
 
         <variable
             name="ingredient"
-            type="com.example.cocktailmachine.cocktailadd.IngredientQuantity" />
+            type="com.example.cocktailmachine.ui.cocktailadd.IngredientQuantity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

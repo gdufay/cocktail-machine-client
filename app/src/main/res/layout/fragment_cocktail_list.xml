@@ -6,7 +6,7 @@
 
         <variable
             name="vModel"
-            type="com.example.cocktailmachine.cocktaillist.CocktailListViewModel" />
+            type="com.example.cocktailmachine.ui.cocktaillist.CocktailListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
