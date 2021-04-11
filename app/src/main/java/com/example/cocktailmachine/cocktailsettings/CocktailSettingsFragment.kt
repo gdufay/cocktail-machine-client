@@ -1,10 +1,7 @@
 package com.example.cocktailmachine.cocktailsettings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -15,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CocktailSettingsFragment : Fragment() {
+class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
 
     private lateinit var binding: FragmentCocktailSettingsBinding
     private val args: CocktailSettingsFragmentArgs by navArgs()
@@ -27,19 +24,10 @@ class CocktailSettingsFragment : Fragment() {
         CocktailSettingsViewModel.provideFactory(viewModelFactory, args.cocktailId)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_cocktail_settings, container, false)
-
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentCocktailSettingsBinding.bind(view)
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner

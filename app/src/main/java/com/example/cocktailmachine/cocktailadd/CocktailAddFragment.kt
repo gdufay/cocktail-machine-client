@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
@@ -33,25 +35,17 @@ class MyOpenDocument : ActivityResultContracts.OpenDocument() {
 }
 
 @AndroidEntryPoint
-class CocktailAddFragment : Fragment(), FragmentResultListener {
+class CocktailAddFragment : Fragment(R.layout.cocktail_add_fragment), FragmentResultListener {
 
     private lateinit var binding: CocktailAddFragmentBinding
     private val addViewModel: CocktailAddViewModel by viewModels()
     private val adapter = CocktailAddAdapter()
     private val getContent = registerForActivityResult(MyOpenDocument(), this::getContentCallback)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.cocktail_add_fragment, container, false)
-
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding = CocktailAddFragmentBinding.bind(view)
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
