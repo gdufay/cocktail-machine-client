@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CocktailDao {
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertCocktail(cocktail: Cocktail): Long
 
@@ -17,6 +18,13 @@ interface CocktailDao {
     @Query("SELECT * FROM Cocktail WHERE cocktailName LIKE '%' || :query || '%'")
     fun getCocktails(query: String): Flow<List<Cocktail>>
 
+    @Query(
+        "SELECT * from Cocktail as c "
+                + " INNER JOIN Quantity as q ON c.cocktailId = q.cocktailId"
+                + " INNER JOIN Ingredient as i ON q.ingredientId = i.ingredientId AND ingredientName IN (:ingredients)"
+                + " WHERE cocktailName LIKE '%' || :query || '%'"
+    )
+    fun getCocktailsFilteredByIngredient(query: String, ingredients: List<String>): Flow<List<Cocktail>>
 }
 
 @Dao
