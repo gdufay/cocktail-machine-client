@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.databinding.FragmentCocktailSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,9 +36,23 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
             lifecycleOwner = viewLifecycleOwner
             vModel = viewModel
             ingredientList.adapter = adapter
+
+            fab.setOnClickListener {
+                viewModel.onFabClick()
+            }
         }
 
         viewModelApply()
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.settingsEvent.collect {
+                when (it) {
+                    is CocktailSettingsViewModel.CocktailSettingEvent.NavigateBack -> {
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        }
     }
 
     private fun viewModelApply() {

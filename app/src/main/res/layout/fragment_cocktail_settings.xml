@@ -47,13 +47,19 @@
                 android:layout_marginTop="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <Button
-                android:id="@+id/cocktail_update"
-                android:layout_width="match_parent"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:backgroundTint="@color/peach_puff"
-                android:text="@string/update_cocktail_btn" />
+                android:layout_margin="16dp"
+                android:backgroundTint="#CCF5E2"
+                android:clickable="true"
+                android:contentDescription="@string/new_cocktail"
+                android:focusable="true"
+                app:srcCompat="@drawable/ic_done"
+                app:tint="@color/white" />
 
         </RelativeLayout>
 
