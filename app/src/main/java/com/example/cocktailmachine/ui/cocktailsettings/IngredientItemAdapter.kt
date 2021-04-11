@@ -4,28 +4,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.data.IngredientWithQuantity
 
-class IngredientItemAdapter : RecyclerView.Adapter<IngredientItemAdapter.ViewHolder>() {
-    var ingredients = listOf<IngredientWithQuantity>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class IngredientItemAdapter :
+    ListAdapter<IngredientWithQuantity, IngredientItemAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val ingredient = ingredients[position]
+        val ingredient = getItem(position)
 
         holder.bind(ingredient)
     }
-
-    override fun getItemCount() = ingredients.size
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val ingredientName: TextView = view.findViewById(R.id.item_ingredient_name)
@@ -39,10 +35,25 @@ class IngredientItemAdapter : RecyclerView.Adapter<IngredientItemAdapter.ViewHol
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.ingredient_quantity_item_view, parent, false)
+                val view =
+                    layoutInflater.inflate(R.layout.ingredient_quantity_item_view, parent, false)
 
                 return ViewHolder(view)
             }
         }
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<IngredientWithQuantity>() {
+        override fun areItemsTheSame(
+            oldItem: IngredientWithQuantity,
+            newItem: IngredientWithQuantity
+        ) =
+            oldItem.ingredientName == newItem.ingredientName
+
+        override fun areContentsTheSame(
+            oldItem: IngredientWithQuantity,
+            newItem: IngredientWithQuantity
+        ) =
+            oldItem == newItem
     }
 }

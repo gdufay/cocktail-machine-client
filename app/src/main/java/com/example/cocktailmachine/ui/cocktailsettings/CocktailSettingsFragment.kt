@@ -58,9 +58,7 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
     private fun viewModelApply() {
         viewModel.apply {
             ingredients.observe(viewLifecycleOwner, {
-                it?.let {
-                    adapter.ingredients = it
-                }
+                adapter.submitList(it)
             })
 
             cocktail.observe(viewLifecycleOwner, {
