@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,62 +16,46 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/big_cocktail_img"
-                android:layout_width="260dp"
-                android:layout_height="242dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
                 android:contentDescription="@string/cocktail_img_content_description"
-                android:src="@drawable/ic_insert_photo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/ic_insert_photo" />
 
             <TextView
                 android:id="@+id/cocktail_name"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_below="@+id/big_cocktail_img"
                 android:gravity="center"
+                android:singleLine="true"
                 android:text="@{vModel.cocktail.cocktailName}"
-                app:layout_constraintEnd_toEndOf="@+id/big_cocktail_img"
-                app:layout_constraintStart_toStartOf="@+id/big_cocktail_img"
-                app:layout_constraintTop_toBottomOf="@+id/big_cocktail_img" />
+                android:textSize="24sp"
+                tools:text="Cocktail Name" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredient_list"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/cocktail_name"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="32dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/cocktail_update"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cocktail_name">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <Button
                 android:id="@+id/cocktail_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_alignParentBottom="true"
                 android:backgroundTint="@color/peach_puff"
-                android:text="@string/update_cocktail_btn"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:text="@string/update_cocktail_btn" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
     </ScrollView>
 

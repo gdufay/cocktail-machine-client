@@ -47,11 +47,8 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
             })
 
             cocktail.observe(viewLifecycleOwner, {
-                it?.let {
-                    it.cocktailUri?.let { uri ->
-                        Glide.with(requireContext()).load(uri).into(binding.bigCocktailImg)
-                    }
-                }
+                Glide.with(requireContext()).load(it?.cocktailUri).centerCrop()
+                    .placeholder(R.drawable.ic_insert_photo).into(binding.bigCocktailImg)
             })
         }
     }
