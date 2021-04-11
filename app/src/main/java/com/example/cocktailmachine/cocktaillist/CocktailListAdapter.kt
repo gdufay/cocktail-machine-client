@@ -8,9 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.data.Cocktail
-import com.squareup.picasso.Picasso
 
 class CocktailListAdapter(private val listener: OnItemClickListener) :
     ListAdapter<Cocktail, CocktailListAdapter.ViewHolder>(DiffCallback()) {
@@ -47,7 +47,7 @@ class CocktailListAdapter(private val listener: OnItemClickListener) :
             cocktailName.text = item.cocktailName
 
             if (item.cocktailUri != null) {
-                Picasso.get().load(item.cocktailUri!!).into(cocktailImage)
+                Glide.with(itemView).load(item.cocktailUri!!).into(cocktailImage)
             } else {
                 cocktailImage.setImageResource(R.drawable.ic_insert_photo)
             }

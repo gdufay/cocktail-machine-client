@@ -5,9 +5,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.databinding.FragmentCocktailSettingsBinding
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -49,7 +49,7 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
             cocktail.observe(viewLifecycleOwner, {
                 it?.let {
                     it.cocktailUri?.let { uri ->
-                        Picasso.get().load(uri).into(binding.bigCocktailImg)
+                        Glide.with(requireContext()).load(uri).into(binding.bigCocktailImg)
                     }
                 }
             })
