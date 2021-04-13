@@ -7,7 +7,7 @@ class IngredientRepository @Inject constructor(private val ingredientDao: Ingred
     fun getIngredients() = ingredientDao.getIngredients()
 
     fun getAllIngredientsWithQuantity(cocktailId: Int) =
-        ingredientDao.getAllIngredientsWithQuantity(cocktailId)
+        ingredientDao.getQuantitiesWithIngredientName(cocktailId)
 
     suspend fun insertIngredient(ingredientName: String) {
         if (ingredientName.isNotBlank()) {

@@ -19,15 +19,18 @@ class CocktailSettingsViewModel @AssistedInject constructor(
     @Assisted private val cocktailId: Int
 ) : ViewModel() {
 
-    val cocktail = cocktailRepository.getCocktail(cocktailId).asLiveData()
+    val cocktail = cocktailRepository.getCocktailWithIngredient(cocktailId).asLiveData()
 
-    val ingredients = ingredientRepository.getAllIngredientsWithQuantity(cocktailId).asLiveData()
+    val ingredients = ingredientRepository.getIngredients().asLiveData()
 
     private val cocktailSettingsEvent = Channel<CocktailSettingEvent>()
     val settingsEvent = cocktailSettingsEvent.receiveAsFlow()
 
     fun onFabClick() = viewModelScope.launch {
         cocktailSettingsEvent.send(CocktailSettingEvent.NavigateBack)
+    }
+
+    fun onClickAddIngredient() {
     }
 
     companion object {

@@ -41,11 +41,27 @@ data class Ingredient(
 data class Quantity(
     @PrimaryKey(autoGenerate = true) val quantityId: Int = 0,
     @NonNull val cocktailId: Int,
-    @NonNull @ColumnInfo(index = true) val ingredientId: Int,
+    @NonNull @ColumnInfo(index = true) var ingredientId: Int,
     @NonNull var quantity: Short
 )
 
-data class IngredientWithQuantity(
-    val ingredientName: String,
-    val quantity: Short
+data class CocktailWithIngredients(
+    @Embedded var cocktail: Cocktail,
+    @Relation(
+        parentColumn = "cocktailId",
+        entityColumn = "cocktailId",
+        entity = Quantity::class
+    )
+    val ingredients: List<QuantityIngredientName>
+)
+
+data class QuantityIngredientName(
+    @Embedded var quantity: Quantity,
+    @Relation(
+        parentColumn = "ingredientId",
+        entityColumn = "ingredientId",
+        entity = Ingredient::class,
+        projection = ["ingredientName"]
+    )
+    val ingredientName: String
 )

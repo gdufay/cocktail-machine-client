@@ -18,6 +18,11 @@ interface CocktailDao {
     @Query("SELECT * FROM Cocktail WHERE cocktailName LIKE '%' || :query || '%'")
     fun getCocktails(query: String): Flow<List<Cocktail>>
 
+    @Transaction
+    @Query("SELECT * FROM Cocktail WHERE cocktailId = :cocktailId")
+    fun getCocktailWithIngredients(cocktailId: Int): Flow<CocktailWithIngredients>
+
+    /*
     @Query(
         "SELECT * from Cocktail as c "
                 + " INNER JOIN Quantity as q ON c.cocktailId = q.cocktailId"
@@ -25,6 +30,7 @@ interface CocktailDao {
                 + " WHERE cocktailName LIKE '%' || :query || '%'"
     )
     fun getCocktailsFilteredByIngredient(query: String, ingredients: List<String>): Flow<List<Cocktail>>
+     */
 }
 
 @Dao
@@ -41,12 +47,9 @@ interface IngredientDao {
     @Query("SELECT * FROM Ingredient")
     fun getIngredients(): Flow<List<Ingredient>>
 
-    @Query(
-        "SELECT ingredientName, quantity FROM Quantity as q"
-                + " INNER JOIN Ingredient as i ON q.ingredientId = i.ingredientId"
-                + " WHERE cocktailId = :cocktailId"
-    )
-    fun getAllIngredientsWithQuantity(cocktailId: Int): Flow<List<IngredientWithQuantity>>
+    @Transaction
+    @Query("SELECT * FROM Quantity WHERE cocktailId = :cocktailId")
+    fun getQuantitiesWithIngredientName(cocktailId: Int): Flow<List<QuantityIngredientName>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertQuantity(vararg quantity: Quantity)

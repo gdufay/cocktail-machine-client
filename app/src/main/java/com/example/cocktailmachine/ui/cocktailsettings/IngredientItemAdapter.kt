@@ -1,20 +1,32 @@
 package com.example.cocktailmachine.ui.cocktailsettings
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
-import com.example.cocktailmachine.data.IngredientWithQuantity
+import com.example.cocktailmachine.data.Ingredient
+import com.example.cocktailmachine.data.QuantityIngredientName
+import com.example.cocktailmachine.databinding.IngredientQuantityItemViewBinding
 
 class IngredientItemAdapter :
-    ListAdapter<IngredientWithQuantity, IngredientItemAdapter.ViewHolder>(DiffCallback()) {
+    ListAdapter<QuantityIngredientName, IngredientItemAdapter.ViewHolder>(DiffCallback()) {
+
+    private var _ingredients: List<Ingredient> = listOf()
+
+    fun setIngredients(ingredients: List<Ingredient>) {
+        _ingredients = ingredients
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        val binding = IngredientQuantityItemViewBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -23,36 +35,36 @@ class IngredientItemAdapter :
         holder.bind(ingredient)
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val ingredientName: TextView = view.findViewById(R.id.item_ingredient_name)
-        private val ingredientQuantity: TextView = view.findViewById(R.id.item_ingredient_quantity)
+    inner class ViewHolder(private val binding: IngredientQuantityItemViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(ingredient: IngredientWithQuantity) {
-            ingredientName.text = ingredient.ingredientName
-            ingredientQuantity.text = ingredient.quantity.toString()
-        }
+        fun bind(item: QuantityIngredientName) {
+            val adapter =
+                ArrayAdapter(binding.root.context, R.layout.ingredient_item_view, _ingredients)
 
-        companion object {
-            fun from(parent: ViewGroup): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val view =
-                    layoutInflater.inflate(R.layout.ingredient_quantity_item_view, parent, false)
+            binding.apply {
+                val editText = ingredientName.editText as AutoCompleteTextView
 
-                return ViewHolder(view)
+                quantity = item
+                editText.setAdapter(adapter)
+                editText.setOnItemClickListener { _, _, position, _ ->
+                    item.quantity.ingredientId = _ingredients[position].ingredientId
+                }
             }
         }
+
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<IngredientWithQuantity>() {
+    class DiffCallback : DiffUtil.ItemCallback<QuantityIngredientName>() {
         override fun areItemsTheSame(
-            oldItem: IngredientWithQuantity,
-            newItem: IngredientWithQuantity
+            oldItem: QuantityIngredientName,
+            newItem: QuantityIngredientName
         ) =
-            oldItem.ingredientName == newItem.ingredientName
+            oldItem.quantity.quantityId == newItem.quantity.quantityId
 
         override fun areContentsTheSame(
-            oldItem: IngredientWithQuantity,
-            newItem: IngredientWithQuantity
+            oldItem: QuantityIngredientName,
+            newItem: QuantityIngredientName
         ) =
             oldItem == newItem
     }

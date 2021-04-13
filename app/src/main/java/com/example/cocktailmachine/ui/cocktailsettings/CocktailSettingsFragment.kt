@@ -57,14 +57,17 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
 
     private fun viewModelApply() {
         viewModel.apply {
-            ingredients.observe(viewLifecycleOwner, {
-                adapter.submitList(it)
-            })
-
-            cocktail.observe(viewLifecycleOwner, {
-                Glide.with(requireContext()).load(it?.cocktailUri).centerCrop()
+            cocktail.observe(viewLifecycleOwner) { (cocktail, ingredients) ->
+                Glide.with(requireContext()).load(cocktail.cocktailUri).centerCrop()
                     .placeholder(R.drawable.ic_insert_photo).into(binding.bigCocktailImg)
-            })
+
+                adapter.submitList(ingredients)
+            }
+
+            ingredients.observe(viewLifecycleOwner) {
+                adapter.setIngredients(it)
+            }
+
         }
     }
 }

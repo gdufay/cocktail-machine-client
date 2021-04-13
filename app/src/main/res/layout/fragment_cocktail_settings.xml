@@ -27,14 +27,18 @@
                 android:contentDescription="@string/cocktail_img_content_description"
                 android:src="@drawable/ic_insert_photo" />
 
-            <TextView
+            <EditText
                 android:id="@+id/cocktail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/big_cocktail_img"
+                android:ellipsize="end"
                 android:gravity="center"
+                android:autofillHints="@string/cocktail_name"
+                android:hint="@string/cocktail_name"
+                android:inputType="textPersonName"
                 android:singleLine="true"
-                android:text="@{vModel.cocktail.cocktailName}"
+                android:text="@={vModel.cocktail.cocktail.cocktailName}"
                 android:textSize="24sp"
                 tools:text="Cocktail Name" />
 
@@ -46,6 +50,15 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <Button
+                android:id="@+id/addIngredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ingredient_list"
+                android:layout_centerInParent="true"
+                android:onClick="@{() -> vModel.onClickAddIngredient()}"
+                android:text="@string/add_ingredient" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
