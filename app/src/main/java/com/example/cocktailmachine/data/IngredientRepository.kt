@@ -12,15 +12,12 @@ class IngredientRepository @Inject constructor(private val ingredientDao: Ingred
     suspend fun insertIngredient(ingredientName: String) {
         if (ingredientName.isNotBlank()) {
             ingredientDao.insertIngredient(
-                Ingredient(
-                    0,
-                    ingredientName.toLowerCase(Locale.getDefault())
-                )
+                Ingredient(ingredientName.toLowerCase(Locale.getDefault()))
             )
         }
     }
 
     suspend fun insertQuantity(cocktailId: Int, ingredientId: Int, quantity: Short) {
-        ingredientDao.insertQuantity(Quantity(0, cocktailId, ingredientId, quantity))
+        ingredientDao.insertQuantity(Quantity(cocktailId, ingredientId, quantity))
     }
 }

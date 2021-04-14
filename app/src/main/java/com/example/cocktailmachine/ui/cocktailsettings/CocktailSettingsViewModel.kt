@@ -1,11 +1,12 @@
 package com.example.cocktailmachine.ui.cocktailsettings
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.cocktailmachine.data.CocktailRepository
 import com.example.cocktailmachine.data.IngredientRepository
+import com.example.cocktailmachine.data.Quantity
+import com.example.cocktailmachine.data.QuantityIngredientName
+import com.example.cocktailmachine.utils.CombinedLiveData
+import com.example.cocktailmachine.utils.addNewItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -16,10 +17,18 @@ import kotlinx.coroutines.launch
 class CocktailSettingsViewModel @AssistedInject constructor(
     cocktailRepository: CocktailRepository,
     ingredientRepository: IngredientRepository,
-    @Assisted private val cocktailId: Int
+    @Assisted private val cocktailId: Int,
 ) : ViewModel() {
 
-    val cocktail = cocktailRepository.getCocktailWithIngredient(cocktailId).asLiveData()
+    val cocktail = cocktailRepository.getCocktail(cocktailId).asLiveData()
+
+    private val _oldQuantities =
+        ingredientRepository.getAllIngredientsWithQuantity(cocktailId).asLiveData()
+    private val _newQuantities = MutableLiveData(mutableListOf<QuantityIngredientName>())
+
+    val quantities = CombinedLiveData(_oldQuantities, _newQuantities) { a, b ->
+        listOf(a.orEmpty(), b.orEmpty()).flatten()
+    }
 
     val ingredients = ingredientRepository.getIngredients().asLiveData()
 
@@ -28,15 +37,19 @@ class CocktailSettingsViewModel @AssistedInject constructor(
 
     fun onFabClick() = viewModelScope.launch {
         cocktailSettingsEvent.send(CocktailSettingEvent.NavigateBack)
+        // update _cocktail
+        // update _quantitiesRepo
+        // insert _quantities
     }
 
     fun onClickAddIngredient() {
+        _newQuantities.addNewItem(QuantityIngredientName(Quantity(cocktailId, 0)))
     }
 
     companion object {
         fun provideFactory(
             assistedFactory: CocktailSettingsViewModelFactory,
-            cocktailId: Int
+            cocktailId: Int,
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {

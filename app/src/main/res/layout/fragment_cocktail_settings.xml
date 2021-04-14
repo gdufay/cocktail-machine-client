@@ -32,13 +32,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/big_cocktail_img"
+                android:autofillHints="@string/cocktail_name"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:autofillHints="@string/cocktail_name"
                 android:hint="@string/cocktail_name"
                 android:inputType="textPersonName"
                 android:singleLine="true"
-                android:text="@={vModel.cocktail.cocktail.cocktailName}"
+                android:text="@={vModel.cocktail.cocktailName}"
                 android:textSize="24sp"
                 tools:text="Cocktail Name" />
 

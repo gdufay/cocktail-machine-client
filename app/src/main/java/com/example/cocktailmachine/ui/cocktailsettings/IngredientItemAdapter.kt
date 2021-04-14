@@ -58,13 +58,13 @@ class IngredientItemAdapter :
     class DiffCallback : DiffUtil.ItemCallback<QuantityIngredientName>() {
         override fun areItemsTheSame(
             oldItem: QuantityIngredientName,
-            newItem: QuantityIngredientName
+            newItem: QuantityIngredientName,
         ) =
-            oldItem.quantity.quantityId == newItem.quantity.quantityId
+            oldItem.quantity.ingredientId == newItem.quantity.ingredientId
 
         override fun areContentsTheSame(
             oldItem: QuantityIngredientName,
-            newItem: QuantityIngredientName
+            newItem: QuantityIngredientName,
         ) =
             oldItem == newItem
     }
