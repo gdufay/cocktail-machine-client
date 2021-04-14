@@ -1,12 +1,16 @@
 package com.example.cocktailmachine.ui.cocktailsettings
 
+import android.view.View
 import androidx.lifecycle.*
+import com.example.cocktailmachine.R
 import com.example.cocktailmachine.data.CocktailRepository
 import com.example.cocktailmachine.data.IngredientRepository
 import com.example.cocktailmachine.data.Quantity
 import com.example.cocktailmachine.data.QuantityIngredientName
 import com.example.cocktailmachine.utils.CombinedLiveData
 import com.example.cocktailmachine.utils.addNewItem
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -36,6 +40,10 @@ class CocktailSettingsViewModel @AssistedInject constructor(
     private val cocktailSettingsEvent = Channel<CocktailSettingEvent>()
     val settingsEvent = cocktailSettingsEvent.receiveAsFlow()
 
+    private val _fabVisibility = MutableLiveData(View.VISIBLE)
+    val fabVisibility: LiveData<Int>
+        get() = _fabVisibility
+
     fun onFabClick() = viewModelScope.launch {
         cocktailSettingsEvent.send(CocktailSettingEvent.NavigateBack)
         // update _cocktail
@@ -49,6 +57,19 @@ class CocktailSettingsViewModel @AssistedInject constructor(
         val new = QuantityIngredientName(Quantity(cocktailId, 0, quantityId = quantityId))
 
         _newQuantities.addNewItem(new)
+    }
+
+    fun requiredCocktailName(v: View) {
+        val layout = v as TextInputLayout
+        val editText = layout.editText!! as TextInputEditText
+
+        if (editText.text.isNullOrBlank()) {
+            layout.error = v.context.getString(R.string.cocktail_name_required)
+            _fabVisibility.value = View.GONE
+        } else {
+            layout.error = null
+            _fabVisibility.value = View.VISIBLE
+        }
     }
 
     companion object {

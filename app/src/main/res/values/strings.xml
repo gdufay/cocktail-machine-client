@@ -42,4 +42,7 @@
     <string name="sort">Sort</string>
     <string name="filter">Filter</string>
 
+    <!-- Error strings -->
+    <string name="cocktail_name_required">Cocktail name required</string>
+
 </resources>

@@ -40,6 +40,10 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
             fab.setOnClickListener {
                 viewModel.onFabClick()
             }
+
+            cocktailName.editText?.setOnFocusChangeListener { _, _ ->
+                viewModel.requiredCocktailName(cocktailName)
+            }
         }
 
         viewModelApply()

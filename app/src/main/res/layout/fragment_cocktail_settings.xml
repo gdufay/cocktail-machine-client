@@ -27,20 +27,24 @@
                 android:contentDescription="@string/cocktail_img_content_description"
                 android:src="@drawable/ic_insert_photo" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cocktail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/big_cocktail_img"
-                android:autofillHints="@string/cocktail_name"
-                android:ellipsize="end"
-                android:gravity="center"
                 android:hint="@string/cocktail_name"
-                android:inputType="textPersonName"
-                android:singleLine="true"
-                android:text="@={vModel.cocktail.cocktailName}"
-                android:textSize="24sp"
-                tools:text="Cocktail Name" />
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:inputType="textPersonName"
+                    android:singleLine="true"
+                    android:text="@={vModel.cocktail.cocktailName}"
+                    tools:text="Cocktail Name" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredient_list"
@@ -71,6 +75,7 @@
                 android:clickable="true"
                 android:contentDescription="@string/new_cocktail"
                 android:focusable="true"
+                android:visibility="@{vModel.fabVisibility}"
                 app:srcCompat="@drawable/ic_done"
                 app:tint="@color/white" />
 
