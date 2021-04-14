@@ -2,6 +2,7 @@ package com.example.cocktailmachine.ui.cocktailsettings
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -53,6 +54,9 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
                 when (it) {
                     is CocktailSettingsViewModel.CocktailSettingEvent.NavigateBack -> {
                         findNavController().popBackStack()
+                    }
+                    is CocktailSettingsViewModel.CocktailSettingEvent.EmptyQuantity -> {
+                        Toast.makeText(context, R.string.fill_all_fields, Toast.LENGTH_SHORT).show()
                     }
                 }
             }

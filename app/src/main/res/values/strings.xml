@@ -35,7 +35,7 @@
     <!-- Strings used for Toast -->
     <string name="cocktail_added">Cocktail added !</string>
     <string name="check_inserted_value">Please, check inserted value</string>
-    <string name="fill_all_fields">Fill all fields to add cocktail</string>
+    <string name="fill_all_fields">Fill all fields before adding new one</string>
 
     <!-- Strings used for different user input handling -->
     <string name="search_cocktail">Search Cocktail</string>

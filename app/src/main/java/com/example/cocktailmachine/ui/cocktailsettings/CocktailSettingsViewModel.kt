@@ -17,7 +17,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class CocktailSettingsViewModel @AssistedInject constructor(
     private val cocktailRepository: CocktailRepository,
@@ -56,9 +55,14 @@ class CocktailSettingsViewModel @AssistedInject constructor(
     }
 
     fun onClickAddIngredient() {
-        // create random id to avoid bug in IngredientItemAdapter DiffCallback
-        val quantityId = Random.nextInt()
-        val new = QuantityIngredientName(Quantity(cocktailId, 0, quantityId = quantityId))
+        val emptyQuantity = _newQuantities.value?.any { it.ingredientName.isBlank() } ?: false
+
+        if (emptyQuantity) {
+            viewModelScope.launch { cocktailSettingsEvent.send(CocktailSettingEvent.EmptyQuantity) }
+            return
+        }
+
+        val new = QuantityIngredientName(Quantity(cocktailId, 0))
 
         _newQuantities.addNewItem(new)
     }
@@ -102,6 +106,7 @@ class CocktailSettingsViewModel @AssistedInject constructor(
 
     sealed class CocktailSettingEvent {
         object NavigateBack : CocktailSettingEvent()
+        object EmptyQuantity : CocktailSettingEvent()
     }
 }
 
