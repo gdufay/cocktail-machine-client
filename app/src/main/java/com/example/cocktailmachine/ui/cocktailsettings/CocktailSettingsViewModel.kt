@@ -55,14 +55,15 @@ class CocktailSettingsViewModel @AssistedInject constructor(
     }
 
     fun onClickAddIngredient() {
-        val emptyQuantity = _newQuantities.value?.any { it.ingredientName.isBlank() } ?: false
+        val emptyQuantity =
+            _newQuantities.value?.any { it.quantity.ingredientId == NO_INGREDIENT_ID } ?: false
 
         if (emptyQuantity) {
             viewModelScope.launch { cocktailSettingsEvent.send(CocktailSettingEvent.EmptyQuantity) }
             return
         }
 
-        val new = QuantityIngredientName(Quantity(cocktailId, 0))
+        val new = QuantityIngredientName(Quantity(cocktailId, NO_INGREDIENT_ID))
 
         _newQuantities.addNewItem(new)
     }
@@ -102,6 +103,8 @@ class CocktailSettingsViewModel @AssistedInject constructor(
                 return assistedFactory.create(cocktailId) as T
             }
         }
+
+        const val NO_INGREDIENT_ID = 0
     }
 
     sealed class CocktailSettingEvent {
