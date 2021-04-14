@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -25,15 +25,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:contentDescription="@string/cocktail_img_content_description"
-                android:src="@drawable/ic_insert_photo" />
+                android:src="@drawable/ic_insert_photo"
+                app:layout_constraintBottom_toTopOf="@+id/cocktail_name"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cocktail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/big_cocktail_img"
                 android:hint="@string/cocktail_name"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:layout_constraintBottom_toTopOf="@+id/ingredient_list"
+                app:layout_constraintTop_toBottomOf="@+id/big_cocktail_img">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -50,36 +53,40 @@
                 android:id="@+id/ingredient_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cocktail_name"
-                android:layout_alignParentEnd="true"
                 android:layout_marginTop="16dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@+id/addIngredient"
+                app:layout_constraintTop_toBottomOf="@+id/cocktail_name" />
 
             <Button
                 android:id="@+id/addIngredient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ingredient_list"
-                android:layout_centerInParent="true"
                 android:onClick="@{() -> vModel.onClickAddIngredient()}"
-                android:text="@string/add_ingredient" />
+                android:text="@string/add_ingredient"
+                app:layout_constraintBottom_toTopOf="@+id/fab"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredient_list" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
                 android:layout_margin="16dp"
                 android:backgroundTint="#CCF5E2"
                 android:clickable="true"
                 android:contentDescription="@string/new_cocktail"
                 android:focusable="true"
                 android:visibility="@{vModel.fabVisibility}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addIngredient"
                 app:srcCompat="@drawable/ic_done"
                 app:tint="@color/white" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
