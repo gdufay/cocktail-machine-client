@@ -60,7 +60,7 @@ class IngredientItemAdapter :
             oldItem: QuantityIngredientName,
             newItem: QuantityIngredientName,
         ) =
-            oldItem.quantity.ingredientId == newItem.quantity.ingredientId
+            oldItem.quantity.quantityId == newItem.quantity.quantityId
 
         override fun areContentsTheSame(
             oldItem: QuantityIngredientName,
