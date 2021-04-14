@@ -1,5 +1,7 @@
 package com.example.cocktailmachine.ui.cocktailsettings
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.databinding.FragmentCocktailSettingsBinding
+import com.example.cocktailmachine.utils.CustomOpenDocument
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
@@ -21,6 +24,8 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
     private lateinit var binding: FragmentCocktailSettingsBinding
     private val args: CocktailSettingsFragmentArgs by navArgs()
     private val adapter = IngredientItemAdapter()
+    private val getContent =
+        registerForActivityResult(CustomOpenDocument(), this::getContentCallback)
 
     @Inject
     lateinit var viewModelFactory: CocktailSettingsViewModelFactory
@@ -38,10 +43,6 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
             vModel = viewModel
             ingredientList.adapter = adapter
 
-            fab.setOnClickListener {
-                viewModel.onFabClick()
-            }
-
             cocktailName.editText?.setOnFocusChangeListener { _, _ ->
                 viewModel.requiredCocktailName(cocktailName)
             }
@@ -57,6 +58,9 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
                     }
                     is CocktailSettingsViewModel.CocktailSettingEvent.EmptyQuantity -> {
                         Toast.makeText(context, R.string.fill_all_fields, Toast.LENGTH_SHORT).show()
+                    }
+                    is CocktailSettingsViewModel.CocktailSettingEvent.UpdateImage -> {
+                        getContent.launch(arrayOf("image/*"))
                     }
                 }
             }
@@ -79,6 +83,16 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
                 adapter.setIngredients(it)
             }
 
+        }
+    }
+
+    private fun getContentCallback(uri: Uri?) {
+        uri?.let {
+            requireContext().contentResolver.takePersistableUriPermission(
+                it,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+            viewModel.setCocktailUri(it)
         }
     }
 }

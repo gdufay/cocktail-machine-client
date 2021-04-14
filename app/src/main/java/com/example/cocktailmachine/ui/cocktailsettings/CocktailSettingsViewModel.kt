@@ -1,12 +1,10 @@
 package com.example.cocktailmachine.ui.cocktailsettings
 
+import android.net.Uri
 import android.view.View
 import androidx.lifecycle.*
 import com.example.cocktailmachine.R
-import com.example.cocktailmachine.data.CocktailRepository
-import com.example.cocktailmachine.data.IngredientRepository
-import com.example.cocktailmachine.data.Quantity
-import com.example.cocktailmachine.data.QuantityIngredientName
+import com.example.cocktailmachine.data.*
 import com.example.cocktailmachine.utils.CombinedLiveData
 import com.example.cocktailmachine.utils.addNewItem
 import com.google.android.material.textfield.TextInputEditText
@@ -24,7 +22,13 @@ class CocktailSettingsViewModel @AssistedInject constructor(
     @Assisted private val cocktailId: Int,
 ) : ViewModel() {
 
-    val cocktail = cocktailRepository.getCocktail(cocktailId).asLiveData()
+    private val _sourceCocktail = cocktailRepository.getCocktail(cocktailId).asLiveData()
+    private val _cocktailUri = MutableLiveData<Uri>()
+    val cocktail = CombinedLiveData(_sourceCocktail, _cocktailUri) { cocktail, uri ->
+        cocktail?.apply {
+            uri?.let { cocktailUri = it }
+        } ?: Cocktail("")
+    }
 
     private val _oldQuantities =
         ingredientRepository.getAllIngredientsWithQuantity(cocktailId).asLiveData()
@@ -81,8 +85,17 @@ class CocktailSettingsViewModel @AssistedInject constructor(
         }
     }
 
+    fun setCocktailUri(uri: Uri) {
+        _cocktailUri.value = uri
+    }
+
+
+    fun onClickUpdateImage() = viewModelScope.launch {
+        cocktailSettingsEvent.send(CocktailSettingEvent.UpdateImage)
+    }
+
     private fun updateCocktail() = viewModelScope.launch {
-        cocktailRepository.updateCocktail(cocktail.value!!)
+        cocktailRepository.updateCocktail(_sourceCocktail.value!!)
     }
 
     private fun updateOldQuantities() = viewModelScope.launch {
@@ -110,6 +123,7 @@ class CocktailSettingsViewModel @AssistedInject constructor(
     sealed class CocktailSettingEvent {
         object NavigateBack : CocktailSettingEvent()
         object EmptyQuantity : CocktailSettingEvent()
+        object UpdateImage : CocktailSettingEvent()
     }
 }
 

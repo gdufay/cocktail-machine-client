@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:contentDescription="@string/cocktail_img_content_description"
+                android:onClick="@{() -> vModel.onClickUpdateImage()}"
                 android:src="@drawable/ic_insert_photo"
                 app:layout_constraintBottom_toTopOf="@+id/cocktail_name"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -79,6 +80,7 @@
                 android:clickable="true"
                 android:contentDescription="@string/new_cocktail"
                 android:focusable="true"
+                android:onClick="@{() -> vModel.onFabClick()}"
                 android:visibility="@{vModel.fabVisibility}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
