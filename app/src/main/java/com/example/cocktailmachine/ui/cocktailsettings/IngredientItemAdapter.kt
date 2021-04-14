@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -47,8 +48,12 @@ class IngredientItemAdapter :
 
                 quantity = item
                 editText.setAdapter(adapter)
-                editText.setOnItemClickListener { _, _, position, _ ->
-                    item.quantity.ingredientId = _ingredients[position].ingredientId
+                editText.setOnItemClickListener { _, view, _, _ ->
+                    val ingredient: TextView = view.findViewById(R.id.ingredientName)
+                    val index = _ingredients.indexOfFirst { it.ingredientName == ingredient.text }
+
+                    if (index != -1)
+                        item.quantity.ingredientId = _ingredients[index].ingredientId
                 }
             }
         }
