@@ -12,6 +12,9 @@ interface CocktailDao {
     @Delete
     suspend fun deleteCocktail(cocktail: Cocktail)
 
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun updateCocktail(value: Cocktail)
+
     @Query("SELECT * FROM Cocktail WHERE cocktailId = :key")
     fun getCocktail(key: Int): Flow<Cocktail>
 
@@ -51,9 +54,13 @@ interface IngredientDao {
     @Query("SELECT * FROM Quantity WHERE cocktailId = :cocktailId")
     fun getQuantitiesWithIngredientName(cocktailId: Int): Flow<List<QuantityIngredientName>>
 
+    // TODO: replace ignore with abort to propagate error
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertQuantity(vararg quantity: Quantity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertListQuantity(quantity: List<Quantity>)
+    suspend fun insertQuantity(quantity: List<Quantity>)
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun updateQuantity(quantity: List<Quantity>)
 }

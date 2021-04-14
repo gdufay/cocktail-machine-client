@@ -20,36 +20,27 @@ class CocktailRepository @Inject constructor(private val database: CocktailDatab
     suspend fun createCocktail(
         cocktailName: String,
         cocktailUri: Uri?,
-        ingredients: List<IngredientQuantity>
-    ) {
+        ingredients: List<IngredientQuantity>,
+    ) =
         database.withTransaction {
             val cocktailId = insertCocktail(cocktailName, cocktailUri).toInt()
 
-            insertListQuantity(cocktailId, ingredients)
+            insertQuantity(cocktailId, ingredients)
         }
-    }
 
-    suspend fun insertCocktail(cocktailName: String, cocktailUri: Uri? = null): Long {
-        return cocktailDao.insertCocktail(
-            Cocktail(
-                cocktailName = cocktailName.toLowerCase(Locale.getDefault()),
-                cocktailUri = cocktailUri
-            )
+    suspend fun insertCocktail(cocktailName: String, cocktailUri: Uri? = null) =
+        cocktailDao.insertCocktail(
+            Cocktail(cocktailName.toLowerCase(Locale.getDefault()), cocktailUri)
         )
-    }
 
-    suspend fun insertListQuantity(cocktailId: Int, quantities: List<IngredientQuantity>) {
-        insertListQuantity(
-            quantities.map {
-                Quantity(
-                    cocktailId = cocktailId,
-                    ingredientId = it.ingredientId,
-                    quantity = it.quantity.toShort()
-                )
-            }
+    suspend fun insertQuantity(cocktailId: Int, quantities: List<IngredientQuantity>) =
+        insertQuantity(
+            quantities.map { Quantity(cocktailId, it.ingredientId, it.quantity.toShort()) }
         )
-    }
 
-    suspend fun insertListQuantity(quantities: List<Quantity>) =
-        ingredientDao.insertListQuantity(quantities)
+    suspend fun insertQuantity(quantities: List<Quantity>) =
+        ingredientDao.insertQuantity(quantities)
+
+    suspend fun updateCocktail(value: Cocktail) =
+        cocktailDao.updateCocktail(value)
 }

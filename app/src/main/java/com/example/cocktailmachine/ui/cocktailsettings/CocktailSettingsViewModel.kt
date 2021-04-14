@@ -20,8 +20,8 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class CocktailSettingsViewModel @AssistedInject constructor(
-    cocktailRepository: CocktailRepository,
-    ingredientRepository: IngredientRepository,
+    private val cocktailRepository: CocktailRepository,
+    private val ingredientRepository: IngredientRepository,
     @Assisted private val cocktailId: Int,
 ) : ViewModel() {
 
@@ -46,9 +46,13 @@ class CocktailSettingsViewModel @AssistedInject constructor(
 
     fun onFabClick() = viewModelScope.launch {
         cocktailSettingsEvent.send(CocktailSettingEvent.NavigateBack)
-        // update _cocktail
-        // update _quantitiesRepo
-        // insert _quantities
+        updateCocktail()
+
+        if (_oldQuantities.value != null)
+            updateOldQuantities()
+
+        if (_newQuantities.value != null)
+            insertNewQuantities()
     }
 
     fun onClickAddIngredient() {
@@ -70,6 +74,18 @@ class CocktailSettingsViewModel @AssistedInject constructor(
             layout.error = null
             _fabVisibility.value = View.VISIBLE
         }
+    }
+
+    private fun updateCocktail() = viewModelScope.launch {
+        cocktailRepository.updateCocktail(cocktail.value!!)
+    }
+
+    private fun updateOldQuantities() = viewModelScope.launch {
+        ingredientRepository.updateQuantity(_oldQuantities.value!!)
+    }
+
+    private fun insertNewQuantities() = viewModelScope.launch {
+        ingredientRepository.insertQuantity(_newQuantities.value!!)
     }
 
     companion object {
