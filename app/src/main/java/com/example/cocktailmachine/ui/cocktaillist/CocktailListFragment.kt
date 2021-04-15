@@ -3,6 +3,7 @@ package com.example.cocktailmachine.ui.cocktaillist
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ class CocktailListFragment : Fragment(R.layout.fragment_cocktail_list),
     private lateinit var binding: FragmentCocktailListBinding
     private val viewModel: CocktailListViewModel by viewModels()
     private val adapter = CocktailListAdapter(this)
+    private val modal = FilterModalBottomSheet()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +48,10 @@ class CocktailListFragment : Fragment(R.layout.fragment_cocktail_list),
         viewModel.cocktails.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+
+        viewModel.ingredients.observe(viewLifecycleOwner) {
+            modal.setAdapterValue(it)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -56,6 +62,16 @@ class CocktailListFragment : Fragment(R.layout.fragment_cocktail_list),
 
         searchView.onQueryTextChanged {
             viewModel.searchQuery.value = it
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_filter -> {
+                modal.show(parentFragmentManager, FilterModalBottomSheet.TAG)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
