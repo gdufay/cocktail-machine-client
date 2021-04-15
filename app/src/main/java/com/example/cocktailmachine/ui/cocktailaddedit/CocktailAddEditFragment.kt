@@ -1,4 +1,4 @@
-package com.example.cocktailmachine.ui.cocktailsettings
+package com.example.cocktailmachine.ui.cocktailaddedit
 
 import android.content.Intent
 import android.net.Uri
@@ -12,17 +12,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.cocktailmachine.R
-import com.example.cocktailmachine.databinding.FragmentCocktailSettingsBinding
+import com.example.cocktailmachine.databinding.FragmentCocktailAddEditBinding
+import com.example.cocktailmachine.ui.cocktailaddedit.CocktailSettingsViewModel.CocktailAddEditEvent
 import com.example.cocktailmachine.utils.CustomOpenDocument
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
+class CocktailAddEditFragment : Fragment(R.layout.fragment_cocktail_add_edit) {
 
-    private lateinit var binding: FragmentCocktailSettingsBinding
-    private val args: CocktailSettingsFragmentArgs by navArgs()
+    private lateinit var binding: FragmentCocktailAddEditBinding
+    private val args: CocktailAddEditFragmentArgs by navArgs()
     private val adapter = IngredientItemAdapter()
     private val getContent =
         registerForActivityResult(CustomOpenDocument(), this::getContentCallback)
@@ -30,13 +31,13 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
     @Inject
     lateinit var viewModelFactory: CocktailSettingsViewModelFactory
     private val viewModel: CocktailSettingsViewModel by viewModels {
-        CocktailSettingsViewModel.provideFactory(viewModelFactory, args.cocktailId)
+        CocktailSettingsViewModel.provideFactory(viewModelFactory, args.cocktail)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentCocktailSettingsBinding.bind(view)
+        binding = FragmentCocktailAddEditBinding.bind(view)
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
@@ -53,14 +54,23 @@ class CocktailSettingsFragment : Fragment(R.layout.fragment_cocktail_settings) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.settingsEvent.collect {
                 when (it) {
-                    is CocktailSettingsViewModel.CocktailSettingEvent.NavigateBack -> {
+                    CocktailAddEditEvent.EditSuccess -> {
+                        // TODO: display message
                         findNavController().popBackStack()
                     }
-                    is CocktailSettingsViewModel.CocktailSettingEvent.EmptyQuantity -> {
+                    CocktailAddEditEvent.EmptyQuantity -> {
                         Toast.makeText(context, R.string.fill_all_fields, Toast.LENGTH_SHORT).show()
                     }
-                    is CocktailSettingsViewModel.CocktailSettingEvent.UpdateImage -> {
+                    CocktailAddEditEvent.UpdateImage -> {
                         getContent.launch(arrayOf("image/*"))
+                    }
+                    CocktailAddEditEvent.CreateSuccess -> {
+                        // TODO: display message
+                        findNavController().popBackStack()
+                    }
+                    CocktailAddEditEvent.SQLInsertError -> {
+                        Toast.makeText(context, R.string.check_inserted_value, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }

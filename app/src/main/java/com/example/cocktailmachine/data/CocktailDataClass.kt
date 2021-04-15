@@ -1,15 +1,18 @@
 package com.example.cocktailmachine.data
 
 import android.net.Uri
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.*
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(indices = [Index(value = ["cocktailName"], unique = true)])
 data class Cocktail(
     @NonNull var cocktailName: String,
     var cocktailUri: Uri? = null,
     @PrimaryKey(autoGenerate = true) val cocktailId: Int = 0,
-)
+) : Parcelable
 
 @Entity(indices = [Index(value = ["ingredientName"], unique = true)])
 data class Ingredient(
@@ -39,7 +42,7 @@ data class Ingredient(
     ]
 )
 data class Quantity(
-    @NonNull val cocktailId: Int,
+    @NonNull var cocktailId: Int,
     @NonNull @ColumnInfo(index = true) var ingredientId: Int,
     @NonNull var quantity: Short = 0,
     @PrimaryKey(autoGenerate = true) val quantityId: Int = 0,

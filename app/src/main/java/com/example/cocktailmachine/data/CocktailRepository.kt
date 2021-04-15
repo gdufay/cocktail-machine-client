@@ -2,7 +2,6 @@ package com.example.cocktailmachine.data
 
 import android.net.Uri
 import androidx.room.withTransaction
-import com.example.cocktailmachine.ui.cocktailadd.IngredientQuantity
 import java.util.*
 import javax.inject.Inject
 
@@ -20,23 +19,19 @@ class CocktailRepository @Inject constructor(private val database: CocktailDatab
     suspend fun createCocktail(
         cocktailName: String,
         cocktailUri: Uri?,
-        ingredients: List<IngredientQuantity>,
+        quantities: List<QuantityIngredientName>,
     ) =
         database.withTransaction {
-            val cocktailId = insertCocktail(cocktailName, cocktailUri).toInt()
+            val insertedId = insertCocktail(cocktailName, cocktailUri)
+            val q = quantities.map { it.quantity }.map { it.apply { cocktailId = insertedId } }
 
-            insertQuantity(cocktailId, ingredients)
+            insertQuantity(q)
         }
 
     suspend fun insertCocktail(cocktailName: String, cocktailUri: Uri? = null) =
         cocktailDao.insertCocktail(
             Cocktail(cocktailName.toLowerCase(Locale.getDefault()), cocktailUri)
-        )
-
-    suspend fun insertQuantity(cocktailId: Int, quantities: List<IngredientQuantity>) =
-        insertQuantity(
-            quantities.map { Quantity(cocktailId, it.ingredientId, it.quantity.toShort()) }
-        )
+        ).toInt()
 
     suspend fun insertQuantity(quantities: List<Quantity>) =
         ingredientDao.insertQuantity(quantities)

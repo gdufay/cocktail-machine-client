@@ -11,10 +11,7 @@
         tools:layout="@layout/fragment_cocktail_list">
         <action
             android:id="@+id/action_recipeFragment_to_cocktailSettingsFragment"
-            app:destination="@id/cocktailSettingsFragment" />
-        <action
-            android:id="@+id/action_recipeFragment_to_cocktailAddFragment"
-            app:destination="@id/cocktailAddFragment" />
+            app:destination="@id/cocktailAddEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -22,21 +19,14 @@
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/cocktailSettingsFragment"
-        android:name="com.example.cocktailmachine.ui.cocktailsettings.CocktailSettingsFragment"
-        android:label="CocktailSettingsFragment"
-        tools:layout="@layout/fragment_cocktail_settings" >
+        android:id="@+id/cocktailAddEditFragment"
+        android:name="com.example.cocktailmachine.ui.cocktailaddedit.CocktailAddEditFragment"
+        android:label="CocktailAddEditFragment"
+        tools:layout="@layout/fragment_cocktail_add_edit">
         <argument
-            android:name="cocktailId"
-            app:argType="integer" />
-    </fragment>
-    <fragment
-        android:id="@+id/cocktailAddFragment"
-        android:name="com.example.cocktailmachine.ui.cocktailadd.CocktailAddFragment"
-        android:label="cocktail_add_fragment"
-        tools:layout="@layout/cocktail_add_fragment" >
-        <action
-            android:id="@+id/action_cocktailAddFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
+            android:name="cocktail"
+            android:defaultValue="@null"
+            app:argType="com.example.cocktailmachine.data.Cocktail"
+            app:nullable="true" />
     </fragment>
 </navigation>

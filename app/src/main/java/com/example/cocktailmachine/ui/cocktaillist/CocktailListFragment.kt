@@ -7,7 +7,6 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.cocktailmachine.R
 import com.example.cocktailmachine.data.Cocktail
@@ -33,9 +32,13 @@ class CocktailListFragment : Fragment(R.layout.fragment_cocktail_list),
             vModel = viewModel
             recipeList.adapter = adapter
 
-            floatingActionButton.setOnClickListener(
-                Navigation.createNavigateOnClickListener(R.id.action_recipeFragment_to_cocktailAddFragment)
-            )
+            floatingActionButton.setOnClickListener {
+                val action =
+                    CocktailListFragmentDirections.actionRecipeFragmentToCocktailSettingsFragment(
+                        null)
+
+                findNavController().navigate(action)
+            }
         }
 
         setHasOptionsMenu(true)
@@ -58,7 +61,7 @@ class CocktailListFragment : Fragment(R.layout.fragment_cocktail_list),
 
     override fun onItemClick(cocktail: Cocktail) {
         val action =
-            CocktailListFragmentDirections.actionRecipeFragmentToCocktailSettingsFragment(cocktail.cocktailId)
+            CocktailListFragmentDirections.actionRecipeFragmentToCocktailSettingsFragment(cocktail)
 
         findNavController().navigate(action)
     }
