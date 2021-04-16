@@ -25,15 +25,11 @@ interface CocktailDao {
     @Query("SELECT * FROM Cocktail WHERE cocktailId = :cocktailId")
     fun getCocktailWithIngredients(cocktailId: Int): Flow<CocktailWithIngredients>
 
-    /*
-    @Query(
-        "SELECT * from Cocktail as c "
-                + " INNER JOIN Quantity as q ON c.cocktailId = q.cocktailId"
-                + " INNER JOIN Ingredient as i ON q.ingredientId = i.ingredientId AND ingredientName IN (:ingredients)"
-                + " WHERE cocktailName LIKE '%' || :query || '%'"
-    )
-    fun getCocktailsFilteredByIngredient(query: String, ingredients: List<String>): Flow<List<Cocktail>>
-     */
+    @Query("SELECT DISTINCT c.cocktailId, cocktailName, cocktailUri FROM Cocktail as c "
+            + " INNER JOIN Quantity as q ON q.cocktailId = c.cocktailId AND q.ingredientId IN (:filter)"
+            + " WHERE cocktailName LIKE '%' || :query || '%'")
+    fun getCocktailsFiltered(query: String, filter: List<Int>): Flow<List<Cocktail>>
+
 }
 
 @Dao

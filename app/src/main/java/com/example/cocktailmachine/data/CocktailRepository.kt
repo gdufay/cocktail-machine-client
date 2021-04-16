@@ -13,6 +13,9 @@ class CocktailRepository @Inject constructor(private val database: CocktailDatab
 
     fun getCocktails(query: String = "") = cocktailDao.getCocktails(query)
 
+    fun getCocktails(query: String = "", filter: List<Int>) =
+        cocktailDao.getCocktailsFiltered(query, filter)
+
     fun getCocktailWithIngredient(cocktailId: Int) =
         cocktailDao.getCocktailWithIngredients(cocktailId)
 

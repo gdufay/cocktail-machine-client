@@ -17,12 +17,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CocktailListFragment : Fragment(R.layout.fragment_cocktail_list),
-    CocktailListAdapter.OnItemClickListener {
+    CocktailListAdapter.OnItemClickListener, FilterAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentCocktailListBinding
     private val viewModel: CocktailListViewModel by viewModels()
     private val adapter = CocktailListAdapter(this)
-    private val modal = FilterModalBottomSheet()
+    private val modal = FilterModalBottomSheet(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,7 +61,7 @@ class CocktailListFragment : Fragment(R.layout.fragment_cocktail_list),
         val searchView = searchItem.actionView as SearchView
 
         searchView.onQueryTextChanged {
-            viewModel.searchQuery.value = it
+            viewModel.setSearchQuery(it)
         }
     }
 
@@ -80,5 +80,9 @@ class CocktailListFragment : Fragment(R.layout.fragment_cocktail_list),
             CocktailListFragmentDirections.actionRecipeFragmentToCocktailSettingsFragment(cocktail)
 
         findNavController().navigate(action)
+    }
+
+    override fun onChipClick(ingredient: Int, isChecked: Boolean) {
+        viewModel.editFilter(ingredient, isChecked)
     }
 }

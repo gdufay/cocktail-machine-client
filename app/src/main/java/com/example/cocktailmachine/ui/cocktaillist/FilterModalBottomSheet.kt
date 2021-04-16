@@ -1,7 +1,6 @@
 package com.example.cocktailmachine.ui.cocktaillist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailmachine.R
-import com.example.cocktailmachine.data.Ingredient
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 
-class FilterModalBottomSheet : BottomSheetDialogFragment() {
-    private val adapter = FilterAdapter()
+class FilterModalBottomSheet(listener: FilterAdapter.OnItemClickListener) :
+    BottomSheetDialogFragment() {
+    private val adapter = FilterAdapter(listener)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +29,7 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
         recyclerView.adapter = adapter
     }
 
-    fun setAdapterValue(value: List<Ingredient>) {
+    fun setAdapterValue(value: List<IngredientFilter>) {
         adapter.submitList(value)
     }
 
@@ -39,7 +38,8 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
     }
 }
 
-class FilterAdapter : ListAdapter<Ingredient, FilterAdapter.ViewHolder>(DiffCallback()) {
+class FilterAdapter(private val listener: OnItemClickListener) :
+    ListAdapter<IngredientFilter, FilterAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -54,24 +54,37 @@ class FilterAdapter : ListAdapter<Ingredient, FilterAdapter.ViewHolder>(DiffCall
         holder.bind(item)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    interface OnItemClickListener {
+        fun onChipClick(ingredient: Int, isChecked: Boolean)
+    }
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val chip: Chip = itemView.findViewById(R.id.filter)
 
-        fun bind(item: Ingredient) {
-            chip.text = item.ingredientName
-            chip.setOnCheckedChangeListener { buttonView, isChecked ->
-                Log.i("Filter", "$isChecked")
+        fun bind(item: IngredientFilter) {
+            chip.apply {
+                text = item.ingredientName
+                isChecked = item.isChecked
+                setOnCheckedChangeListener { _, isChecked ->
+                    item.isChecked = isChecked
+                    listener.onChipClick(item.ingredientId, isChecked)
+                }
             }
         }
 
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Ingredient>() {
-        override fun areItemsTheSame(oldItem: Ingredient, newItem: Ingredient) =
+    class DiffCallback : DiffUtil.ItemCallback<IngredientFilter>() {
+        override fun areItemsTheSame(
+            oldItem: IngredientFilter,
+            newItem: IngredientFilter,
+        ): Boolean =
             oldItem.ingredientId == newItem.ingredientId
 
-        override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient) =
+        override fun areContentsTheSame(
+            oldItem: IngredientFilter,
+            newItem: IngredientFilter,
+        ): Boolean =
             oldItem == newItem
-
     }
 }
